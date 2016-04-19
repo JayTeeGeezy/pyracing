@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import unittest
 
 import cache_requests
@@ -8,18 +8,21 @@ import pypunters
 import pyracing
 
 
+def setUpModule():
+	
+	database = pymongo.MongoClient()['pyracing_test']
+
+	http_client = cache_requests.Session()
+	html_parser = html.fromstring
+	scraper = pypunters.Scraper(http_client, html_parser)
+
+	pyracing.initialize(database, scraper)
+
+
 class GetHistoricalMeetsByDateTest(unittest.TestCase):
 
 	@classmethod
 	def setUpClass(cls):
-
-		database = pymongo.MongoClient()['pyracing_test']
-
-		http_client = cache_requests.Session()
-		html_parser = html.fromstring
-		scraper = pypunters.Scraper(http_client, html_parser)
-
-		pyracing.initialize(database, scraper)
 
 		cls.date = datetime(2016, 2, 1)
 
@@ -56,3 +59,18 @@ class GetHistoricalMeetsByDateTest(unittest.TestCase):
 
 		for new_id in new_ids:
 			self.assertIn(new_id, old_ids)
+
+
+class GetFutureMeetsByDateTest(unittest.TestCase):
+
+	def test_rescrape(self):
+		"""Subsequent calls to get_meets_by_date for the same future date should replace data in the database"""
+		
+		date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+		old_ids = [meet['_id'] for meet in pyracing.Meet.get_meets_by_date(date)]
+
+		new_ids = [meet['_id'] for meet in pyracing.Meet.get_meets_by_date(date)]
+
+		for old_id in old_ids:
+			self.assertIsNone(pyracing.Meet.get_meet_by_id(old_id))
+			self.assertNotIn(old_id, new_ids)
