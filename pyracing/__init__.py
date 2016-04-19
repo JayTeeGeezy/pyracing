@@ -1,4 +1,6 @@
+from .common import Entity
 from .meet import Meet
+from .race import Race
 
 
 def initialize(database, scraper):
@@ -11,5 +13,5 @@ def initialize(database, scraper):
 	meets = scraper.scrape_meets(date)
 	"""
 
-	Meet.database = database
-	Meet.scraper = scraper
+	Entity.database = database
+	Entity.scraper = scraper

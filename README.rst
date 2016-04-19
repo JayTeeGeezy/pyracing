@@ -62,9 +62,23 @@ To get a list of meets occurring on a given date, call the Meet.get_meets_by_dat
 	>>> date = datetime(2016, 2, 1)
 	>>> meets = pyracing.Meet.get_meets_by_date(date)
 
-The get_meets_by_date method will return a list of Meet objects. The Meet class itself is derived from Python's built-in dict type, so a meet's details can be accessed as follows::
+The get_meets_by_date method will return a list of Meet objects. The Meet class itself is derived from Python's built-in dict type, so a meet's details can be accessed as follows:
 
 	>>> track = meets[index]['track']
+
+
+Races
+~~~~~
+
+A race represents a collection of runners competing in a single event at a given meet.
+
+To get a list of races occurring at a given meet, call the Race.get_races_by_meet method as follows:
+
+	>>> pyracing.Race.get_races_by_meet(meet)
+
+The get_races_by_meet method will return a list of Race objects. The Race class itself is derived from Python's built-in dict type, so a race's details can be accessed as follows:
+
+	>>> number = races[index]['number']
 
 
 Testing
@@ -81,3 +95,4 @@ The above command will ensure all test dependencies are installed in your curren
 Alternatively, individual components of pyracing can be tested by executing any of the following commands from the root directory of the pyracing repository::
 
 	nosetests pyracing.test.meets
+	nosetests pyracing.test.races
