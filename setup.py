@@ -39,9 +39,14 @@ setup(
 	],
 	test_suite='nose.collector',
 	tests_require=[
-		'nose'
+		'cache_requests',
+		'lxml',
+		'nose',
+		'pymongo',
+		'pypunters'
 	],
 	dependency_links=[
+		'https://github.com/JayTeeGeezy/pypunters/tarball/develop#egg=pypunters-0.0.0'
 	],
 	include_package_data=True,
 	zip_safe=False
