@@ -28,6 +28,19 @@ class Race(Entity):
 
 		return races
 
+	@classmethod
+	def initialize(cls):
+		"""Initialize class dependencies"""
+
+		def handle_deleting_meet(meet):
+			for race in meet.races:
+				race.delete()
+
+		cls.event_manager.add_subscriber('deleting_meet', handle_deleting_meet)
+
+		cls.create_index([('meet_id', 1)])
+		cls.create_index([('meet_id', 1), ('scraped_at', 1)])
+
 	@property
 	def meet(self):
 		"""Return the meet at which this race occurs"""

@@ -89,6 +89,36 @@ To get the meet at which a given race occurs, access the race's meet property as
 	>>> meet = races[index].meet
 
 
+Event Hooks
+~~~~~~~~~~~
+
+The pyracing package implements a publisher/subscriber style event model. To subscribe to an event, call the pyracing.add_subscriber method as follows:
+
+	>>> pyracing.add_subscriber('event_name', handler)
+
+handler must be a function that conforms to the handler signature as specified in the following table:
+
++---------------+---------------+-----------------------------------------------+
+| Event Name    | Calls         | When                                          |
++===============+===============+===============================================+
+| deleting_meet | handler(meet) | BEFORE meet is deleted from the database      |
++---------------+---------------+-----------------------------------------------+
+| deleted_meet  | handler(meet) | AFTER meet has been deleted from the database |
++---------------+---------------+-----------------------------------------------+
+| saving_meet   | handler(meet) | BEFORE meet is saved to the database          |
++---------------+---------------+-----------------------------------------------+
+| saved_meet    | handler(meet) | AFTER meet has been saved to the database     |
++---------------+---------------+-----------------------------------------------+
+| deleting_race | handler(race) | BEFORE race is deleted from the database      |
++---------------+---------------+-----------------------------------------------+
+| deleted_race  | handler(race) | AFTER race has been deleted from the database |
++---------------+---------------+-----------------------------------------------+
+| saving_race   | handler(race) | BEFORE race is saved to the database          |
++---------------+---------------+-----------------------------------------------+
+| saved_race    | handler(race) | AFTER race has been saved to the database     |
++---------------+---------------+-----------------------------------------------+
+
+
 Testing
 -------
 

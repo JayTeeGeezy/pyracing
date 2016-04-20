@@ -45,3 +45,17 @@ class MeetPropertiesTest(EntityTest):
 		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
 
 		self.assertEqual(pyracing.Race.get_races_by_meet(meet), meet.races)
+
+
+class DeleteMeetTest(EntityTest):
+
+	def test_deletes_races(self):
+		"""Deleting a meet should also delete any races occurring at that meet"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		old_ids = [race['_id'] for race in meet.races]
+
+		meet.delete()
+
+		for old_id in old_ids:
+			self.assertIsNone(pyracing.Race.get_race_by_id(old_id))

@@ -21,6 +21,13 @@ class Meet(Entity):
 			expiry_date=date
 			)
 
+	@classmethod
+	def initialize(cls):
+		"""Initialize class dependencies"""
+
+		cls.create_index([('date', 1)])
+		cls.create_index([('date', 1), ('scraped_at', 1)])
+
 	@property
 	def races(self):
 		"""Return a list of races occurring at this meet"""

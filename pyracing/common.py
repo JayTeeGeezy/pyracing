@@ -1,11 +1,20 @@
 from datetime import datetime
 
+from .events import EventManager
+
 
 class Entity(dict):
 	"""Common functionality for racing entities"""
 
 	database = None
+	event_manager = EventManager()
 	scraper = None
+
+	@classmethod
+	def create_index(cls, index):
+		"""Create a database index"""
+
+		cls.get_database_collection().create_index(index)
 
 	@classmethod
 	def delete_expired(cls, filter, expiry_date):
@@ -56,12 +65,18 @@ class Entity(dict):
 		"""Remove the entity from the database"""
 
 		if '_id' in self and self['_id'] is not None:
+			self.event_manager.publish_event('deleting_' + self.__class__.__name__.lower(), [self])
 			self.get_database_collection().delete_one({'_id': self['_id']})
+			self.event_manager.publish_event('deleted_' + self.__class__.__name__.lower(), [self])
 
 	def save(self):
 		"""Save the entity to the database"""
+
+		self.event_manager.publish_event('saving_' + self.__class__.__name__.lower(), [self])
 
 		if '_id' in self and self['_id'] is not None:
 			self.get_database_collection().replace_one({'_id': self['_id']}, self)
 		else:
 			self['_id'] = self.get_database_collection().insert_one(self).inserted_id
+
+		self.event_manager.publish_event('saved_' + self.__class__.__name__.lower(), [self])

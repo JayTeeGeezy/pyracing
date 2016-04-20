@@ -15,3 +15,12 @@ def initialize(database, scraper):
 
 	Entity.database = database
 	Entity.scraper = scraper
+
+	for entity in (Meet, Race):
+		entity.initialize()
+
+
+def add_subscriber(event, handler):
+	"""Add handler to the list of subscribers to event"""
+
+	Entity.event_manager.add_subscriber(event, handler)
