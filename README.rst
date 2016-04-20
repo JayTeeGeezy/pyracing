@@ -129,6 +129,24 @@ The get_horse_by_runner method will return a single Horse object. The Horse clas
 	>>> name = horse['name']
 
 
+Jockeys
+~~~~~~~
+
+A jockey represents the human riding a runner.
+
+To get the jockey for a given runner, call the Jockey.get_jockey_by_runner method as follows:
+
+	>>> jockey = pyracing.Jockey.get_jockey_by_runner(runner)
+
+Alternatively, the jockey for a given runner can be obtained by accessing the runner's jockey property as follows:
+
+	>>> jockey = runner.jockey
+
+The get_jockey_by_runner method will return a single Jockey object. The Jockey class itself is derived from Python's built-in dict type, so a jockey's details can be accessed as follows:
+
+	>>> name = jockey['name']
+
+
 Event Hooks
 ~~~~~~~~~~~
 
@@ -173,6 +191,14 @@ handler must be a function that conforms to the handler signature as specified i
 +-----------------+-----------------+-------------------------------------------------+
 | saved_horse     | handler(horse)  | AFTER horse has been saved to the database      |
 +-----------------+-----------------+-------------------------------------------------+
+| deleting_jockey | handler(jockey) | BEFORE jockey is deleted from the database      |
++-----------------+-----------------+-------------------------------------------------+
+| deleted_jockey  | handler(jockey) | AFTER jockey has been deleted from the database |
++-----------------+-----------------+-------------------------------------------------+
+| saving_jockey   | handler(jockey) | BEFORE jockey is saved to the database          |
++-----------------+-----------------+-------------------------------------------------+
+| saved_jockey    | handler(jockey) | AFTER jockey has been saved to the database     |
++-----------------+-----------------+-------------------------------------------------+
 
 
 Testing
@@ -192,3 +218,4 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.races
 	nosetests pyracing.test.runners
 	nosetests pyracing.test.horses
+	nosetests pyracing.test.jockeys
