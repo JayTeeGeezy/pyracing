@@ -42,6 +42,12 @@ class Runner(Entity):
 		cls.create_index([('race_id', 1), ('scraped_at', 1)])
 
 	@property
+	def horse(self):
+		"""Return the actual horse running in the race"""
+
+		return Horse.get_horse_by_runner(self)
+
+	@property
 	def race(self):
 		"""Return the race in which this runner competes"""
 
@@ -49,3 +55,4 @@ class Runner(Entity):
 
 
 from .race import Race
+from .horse import Horse
