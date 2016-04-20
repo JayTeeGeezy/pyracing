@@ -28,3 +28,12 @@ class Horse(Entity):
 
 		cls.create_index([('url', 1)])
 		cls.create_index([('url', 1), ('scraped_at', 1)])
+
+	@property
+	def performances(self):
+		"""Return a list of performances involving this horse"""
+
+		return Performance.get_performances_by_horse(self)
+
+
+from .performance import Performance
