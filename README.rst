@@ -147,6 +147,24 @@ The get_jockey_by_runner method will return a single Jockey object. The Jockey c
 	>>> name = jockey['name']
 
 
+Trainers
+~~~~~~~
+
+A trainer represents the people responsible for a horse.
+
+To get the trainer for a given runner, call the Trainer.get_trainer_by_runner method as follows:
+
+	>>> trainer = pyracing.Trainer.get_trainer_by_runner(runner)
+
+Alternatively, the trainer for a given runner can be obtained by accessing the runner's trainer property as follows:
+
+	>>> trainer = runner.trainer
+
+The get_trainer_by_runner method will return a single Trainer object. The Trainer class itself is derived from Python's built-in dict type, so a trainer's details can be accessed as follows:
+
+	>>> name = trainer['name']
+
+
 Event Hooks
 ~~~~~~~~~~~
 
@@ -156,49 +174,57 @@ The pyracing package implements a publisher/subscriber style event model. To sub
 
 handler must be a function that conforms to the handler signature as specified in the following table:
 
-+-----------------+-----------------+-------------------------------------------------+
-| Event Name      | Calls           | When                                            |
-+=================+=================+=================================================+
-| deleting_meet   | handler(meet)   | BEFORE meet is deleted from the database        |
-+-----------------+-----------------+-------------------------------------------------+
-| deleted_meet    | handler(meet)   | AFTER meet has been deleted from the database   |
-+-----------------+-----------------+-------------------------------------------------+
-| saving_meet     | handler(meet)   | BEFORE meet is saved to the database            |
-+-----------------+-----------------+-------------------------------------------------+
-| saved_meet      | handler(meet)   | AFTER meet has been saved to the database       |
-+-----------------+-----------------+-------------------------------------------------+
-| deleting_race   | handler(race)   | BEFORE race is deleted from the database        |
-+-----------------+-----------------+-------------------------------------------------+
-| deleted_race    | handler(race)   | AFTER race has been deleted from the database   |
-+-----------------+-----------------+-------------------------------------------------+
-| saving_race     | handler(race)   | BEFORE race is saved to the database            |
-+-----------------+-----------------+-------------------------------------------------+
-| saved_race      | handler(race)   | AFTER race has been saved to the database       |
-+-----------------+-----------------+-------------------------------------------------+
-| deleting_runner | handler(runner) | BEFORE runner is deleted from the database      |
-+-----------------+-----------------+-------------------------------------------------+
-| deleted_runner  | handler(runner) | AFTER runner has been deleted from the database |
-+-----------------+-----------------+-------------------------------------------------+
-| saving_runner   | handler(runner) | BEFORE runner is saved to the database          |
-+-----------------+-----------------+-------------------------------------------------+
-| saved_runner    | handler(runner) | AFTER runner has been saved to the database     |
-+-----------------+-----------------+-------------------------------------------------+
-| deleting_horse  | handler(horse)  | BEFORE horse is deleted from the database       |
-+-----------------+-----------------+-------------------------------------------------+
-| deleted_horse   | handler(horse)  | AFTER horse has been deleted from the database  |
-+-----------------+-----------------+-------------------------------------------------+
-| saving_horse    | handler(horse)  | BEFORE horse is saved to the database           |
-+-----------------+-----------------+-------------------------------------------------+
-| saved_horse     | handler(horse)  | AFTER horse has been saved to the database      |
-+-----------------+-----------------+-------------------------------------------------+
-| deleting_jockey | handler(jockey) | BEFORE jockey is deleted from the database      |
-+-----------------+-----------------+-------------------------------------------------+
-| deleted_jockey  | handler(jockey) | AFTER jockey has been deleted from the database |
-+-----------------+-----------------+-------------------------------------------------+
-| saving_jockey   | handler(jockey) | BEFORE jockey is saved to the database          |
-+-----------------+-----------------+-------------------------------------------------+
-| saved_jockey    | handler(jockey) | AFTER jockey has been saved to the database     |
-+-----------------+-----------------+-------------------------------------------------+
++------------------+------------------+--------------------------------------------------+
+| Event Name       | Calls            | When                                             |
++==================+==================+==================================================+
+| deleting_meet    | handler(meet)    | BEFORE meet is deleted from the database         |
++------------------+------------------+--------------------------------------------------+
+| deleted_meet     | handler(meet)    | AFTER meet has been deleted from the database    |
++------------------+------------------+--------------------------------------------------+
+| saving_meet      | handler(meet)    | BEFORE meet is saved to the database             |
++------------------+------------------+--------------------------------------------------+
+| saved_meet       | handler(meet)    | AFTER meet has been saved to the database        |
++------------------+------------------+--------------------------------------------------+
+| deleting_race    | handler(race)    | BEFORE race is deleted from the database         |
++------------------+------------------+--------------------------------------------------+
+| deleted_race     | handler(race)    | AFTER race has been deleted from the database    |
++------------------+------------------+--------------------------------------------------+
+| saving_race      | handler(race)    | BEFORE race is saved to the database             |
++------------------+------------------+--------------------------------------------------+
+| saved_race       | handler(race)    | AFTER race has been saved to the database        |
++------------------+------------------+--------------------------------------------------+
+| deleting_runner  | handler(runner)  | BEFORE runner is deleted from the database       |
++------------------+------------------+--------------------------------------------------+
+| deleted_runner   | handler(runner)  | AFTER runner has been deleted from the database  |
++------------------+------------------+--------------------------------------------------+
+| saving_runner    | handler(runner)  | BEFORE runner is saved to the database           |
++------------------+------------------+--------------------------------------------------+
+| saved_runner     | handler(runner)  | AFTER runner has been saved to the database      |
++------------------+------------------+--------------------------------------------------+
+| deleting_horse   | handler(horse)   | BEFORE horse is deleted from the database        |
++------------------+------------------+--------------------------------------------------+
+| deleted_horse    | handler(horse)   | AFTER horse has been deleted from the database   |
++------------------+------------------+--------------------------------------------------+
+| saving_horse     | handler(horse)   | BEFORE horse is saved to the database            |
++------------------+------------------+--------------------------------------------------+
+| saved_horse      | handler(horse)   | AFTER horse has been saved to the database       |
++------------------+------------------+--------------------------------------------------+
+| deleting_jockey  | handler(jockey)  | BEFORE jockey is deleted from the database       |
++------------------+------------------+--------------------------------------------------+
+| deleted_jockey   | handler(jockey)  | AFTER jockey has been deleted from the database  |
++------------------+------------------+--------------------------------------------------+
+| saving_jockey    | handler(jockey)  | BEFORE jockey is saved to the database           |
++------------------+------------------+--------------------------------------------------+
+| saved_jockey     | handler(jockey)  | AFTER jockey has been saved to the database      |
++------------------+------------------+--------------------------------------------------+
+| deleting_trainer | handler(trainer) | BEFORE trainer is deleted from the database      |
++------------------+------------------+--------------------------------------------------+
+| deleted_trainer  | handler(trainer) | AFTER trainer has been deleted from the database |
++------------------+------------------+--------------------------------------------------+
+| saving_trainer   | handler(trainer) | BEFORE trainer is saved to the database          |
++------------------+------------------+--------------------------------------------------+
+| saved_trainer    | handler(trainer) | AFTER trainer has been saved to the database     |
++------------------+------------------+--------------------------------------------------+
 
 
 Testing
@@ -219,3 +245,4 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.runners
 	nosetests pyracing.test.horses
 	nosetests pyracing.test.jockeys
+	nosetests pyracing.test.trainers
