@@ -59,7 +59,14 @@ class Runner(Entity):
 
 		return Race.get_race_by_id(self['race_id'])
 
+	@property
+	def trainer(self):
+		"""Return the trainer responsible for the runner"""
+
+		return Trainer.get_trainer_by_runner(self)
+
 
 from .race import Race
 from .horse import Horse
 from .jockey import Jockey
+from .trainer import Trainer
