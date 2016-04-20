@@ -6,6 +6,7 @@ from .horse import Horse
 from .jockey import Jockey
 from .trainer import Trainer
 from .performance import Performance
+from .iterator import iterate
 
 
 def initialize(database, scraper):

@@ -5,3 +5,4 @@ from .horses import *
 from .jockeys import *
 from .trainers import *
 from .performances import *
+from .iterator import *
