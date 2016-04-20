@@ -48,6 +48,12 @@ class Runner(Entity):
 		return Horse.get_horse_by_runner(self)
 
 	@property
+	def jockey(self):
+		"""Return the actual jockey riding in the race"""
+
+		return Jockey.get_jockey_by_runner(self)
+
+	@property
 	def race(self):
 		"""Return the race in which this runner competes"""
 
@@ -56,3 +62,4 @@ class Runner(Entity):
 
 from .race import Race
 from .horse import Horse
+from .jockey import Jockey

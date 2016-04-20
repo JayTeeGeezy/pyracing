@@ -138,6 +138,10 @@ To get the jockey for a given runner, call the Jockey.get_jockey_by_runner metho
 
 	>>> jockey = pyracing.Jockey.get_jockey_by_runner(runner)
 
+Alternatively, the jockey for a given runner can be obtained by accessing the runner's jockey property as follows:
+
+	>>> jockey = runner.jockey
+
 The get_jockey_by_runner method will return a single Jockey object. The Jockey class itself is derived from Python's built-in dict type, so a jockey's details can be accessed as follows:
 
 	>>> name = jockey['name']
