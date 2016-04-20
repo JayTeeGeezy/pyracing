@@ -120,6 +120,10 @@ To get the horse for a given runner, call the Horse.get_horse_by_runner method a
 
 	>>> horse = pyracing.Horse.get_horse_by_runner(runner)
 
+Alternatively, the horse for a given runner can be obtained by accessing the runner's horse property as follows:
+
+	>>> horse = runner.horse
+
 The get_horse_by_runner method will return a single Horse object. The Horse class itself is derived from Python's built-in dict type, so a horse's details can be accessed as follows:
 
 	>>> name = horse['name']

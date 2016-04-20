@@ -51,11 +51,28 @@ class GetFutureRunnersByDateTest(EntityTest):
 
 class RunnerPropertiesTest(EntityTest):
 
+	@classmethod
+	def setUpClass(cls):
+		
+		for meet in pyracing.Meet.get_meets_by_date(historical_date):
+			if meet['track'] == 'Kilmore':
+				cls.meet = meet
+				for race in cls.meet.races:
+					if race['number'] == 5:
+						cls.race = race
+						for runner in cls.race.runners:
+							if runner['number'] == 1:
+								cls.runner = runner
+								break
+						break
+				break
+
+	def test_horse(self):
+		"""The horse property should return the actual horse running in the race"""
+		
+		self.assertEqual(pyracing.Horse.get_horse_by_runner(self.runner), self.runner.horse)
+
 	def test_race(self):
 		"""The race property should return the race in which the runner is competing"""
 
-		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
-		race = meet.races[0]
-		runner = pyracing.Runner.get_runners_by_race(race)[0]
-
-		self.assertEqual(pyracing.Race.get_race_by_id(runner['race_id']), runner.race)
+		self.assertEqual(pyracing.Race.get_race_by_id(self.runner['race_id']), self.runner.race)
