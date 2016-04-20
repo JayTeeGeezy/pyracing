@@ -49,10 +49,33 @@ class GetFutureRacesByDateTest(EntityTest):
 
 class RacePropertiesTest(EntityTest):
 
+	@classmethod
+	def setUpClass(cls):
+
+		cls.meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		cls.race = pyracing.Race.get_races_by_meet(cls.meet)[0]
+
 	def test_meet(self):
 		"""The meet property should return the meet at which the race occurs"""
 
-		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
-		race = pyracing.Race.get_races_by_meet(meet)[0]
+		self.assertEqual(pyracing.Meet.get_meet_by_id(self.race['meet_id']), self.race.meet)
 
-		self.assertEqual(pyracing.Meet.get_meet_by_id(race['meet_id']), race.meet)
+	def test_runners(self):
+		"""The runners property should return a list of runners competing in the race"""
+
+		self.assertEqual(pyracing.Runner.get_runners_by_race(self.race), self.race.runners)
+
+
+class DeleteRaceTest(EntityTest):
+
+	def test_deletes_runners(self):
+		"""Deleting a race should also delete any runners competing in that race"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		race = meet.races[0]
+		old_ids = [runner['_id'] for runner in race.runners]
+
+		race.delete()
+
+		for old_id in old_ids:
+			self.assertIsNone(pyracing.Runner.get_runner_by_id(old_id))
