@@ -1,59 +1,38 @@
-from datetime import datetime
+from .common import Entity
 
 
-class Meet(dict):
+class Meet(Entity):
 	"""A meet represents a collection of races occurring at a given track on a given date"""
-
-	database = None
-	scraper = None
-
-	@classmethod
-	def delete_expired(cls, filter, expiry_date):
-		"""Delete meets matching the specified filter with a scraped_at date prior to expiry_date"""
-
-		for meet in cls.find(dict({'scraped_at': {'$lt': expiry_date}}, **filter)):
-			meet.delete()
-
-	@classmethod
-	def find(cls, filter):
-		"""Get a list of meets matching the specified filter from the database"""
-
-		return [cls(values) for values in cls.database['meets'].find(filter)]
-
-	@classmethod
-	def get_meets_by_date(cls, date):
-		"""Get a list of meets occurring on the specified date"""
-
-		filter = {'date': date}
-		cls.delete_expired(filter, date)
-		meets = cls.find(filter)
-
-		if len(meets) < 1:
-			meets = [cls(values) for values in cls.scraper.scrape_meets(date)]
-			for meet in meets:
-				meet['scraped_at'] = datetime.now()
-				meet.save()
-
-		return meets
 
 	@classmethod
 	def get_meet_by_id(cls, id):
 		"""Get the single meet with the specified database ID"""
 
-		values = cls.database['meets'].find_one({'_id': id})
-		if values is not None:
-			return cls(values)
+		return cls.find_one({'_id': id})
 
-	def delete(self):
-		"""Remove the meet from the database"""
+	@classmethod
+	def get_meets_by_date(cls, date):
+		"""Get a list of meets occurring on the specified date"""
 
-		if '_id' in self and self['_id'] is not None:
-			self.database['meets'].delete_one({'_id': self['_id']})
+		return cls.find_or_scrape(
+			filter={'date': date},
+			scrape=cls.scraper.scrape_meets,
+			scrape_args=[date],
+			expiry_date=date
+			)
 
-	def save(self):
-		"""Save the meet to the database"""
+	@classmethod
+	def initialize(cls):
+		"""Initialize class dependencies"""
 
-		if '_id' in self and self['_id'] is not None:
-			self.database['meets'].replace_one({'_id': self['_id']}, self)
-		else:
-			self['_id'] = self.database['meets'].insert_one(self).inserted_id
+		cls.create_index([('date', 1)])
+		cls.create_index([('date', 1), ('scraped_at', 1)])
+
+	@property
+	def races(self):
+		"""Return a list of races occurring at this meet"""
+
+		return Race.get_races_by_meet(self)
+
+
+from .race import Race

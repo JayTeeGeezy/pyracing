@@ -62,9 +62,61 @@ To get a list of meets occurring on a given date, call the Meet.get_meets_by_dat
 	>>> date = datetime(2016, 2, 1)
 	>>> meets = pyracing.Meet.get_meets_by_date(date)
 
-The get_meets_by_date method will return a list of Meet objects. The Meet class itself is derived from Python's built-in dict type, so a meet's details can be accessed as follows::
+The get_meets_by_date method will return a list of Meet objects. The Meet class itself is derived from Python's built-in dict type, so a meet's details can be accessed as follows:
 
 	>>> track = meets[index]['track']
+
+
+Races
+~~~~~
+
+A race represents a collection of runners competing in a single event at a given meet.
+
+To get a list of races occurring at a given meet, call the Race.get_races_by_meet method as follows:
+
+	>>> races = pyracing.Race.get_races_by_meet(meet)
+
+Alternatively, a list of races occurring at a given meet can be obtained by accessing the meet's races property as follows:
+
+	>>> races = meet.races
+
+The get_races_by_meet method will return a list of Race objects. The Race class itself is derived from Python's built-in dict type, so a race's details can be accessed as follows:
+
+	>>> number = races[index]['number']
+
+To get the meet at which a given race occurs, access the race's meet property as follows:
+
+	>>> meet = races[index].meet
+
+
+Event Hooks
+~~~~~~~~~~~
+
+The pyracing package implements a publisher/subscriber style event model. To subscribe to an event, call the pyracing.add_subscriber method as follows:
+
+	>>> pyracing.add_subscriber('event_name', handler)
+
+handler must be a function that conforms to the handler signature as specified in the following table:
+
++---------------+---------------+-----------------------------------------------+
+| Event Name    | Calls         | When                                          |
++===============+===============+===============================================+
+| deleting_meet | handler(meet) | BEFORE meet is deleted from the database      |
++---------------+---------------+-----------------------------------------------+
+| deleted_meet  | handler(meet) | AFTER meet has been deleted from the database |
++---------------+---------------+-----------------------------------------------+
+| saving_meet   | handler(meet) | BEFORE meet is saved to the database          |
++---------------+---------------+-----------------------------------------------+
+| saved_meet    | handler(meet) | AFTER meet has been saved to the database     |
++---------------+---------------+-----------------------------------------------+
+| deleting_race | handler(race) | BEFORE race is deleted from the database      |
++---------------+---------------+-----------------------------------------------+
+| deleted_race  | handler(race) | AFTER race has been deleted from the database |
++---------------+---------------+-----------------------------------------------+
+| saving_race   | handler(race) | BEFORE race is saved to the database          |
++---------------+---------------+-----------------------------------------------+
+| saved_race    | handler(race) | AFTER race has been saved to the database     |
++---------------+---------------+-----------------------------------------------+
 
 
 Testing
@@ -81,3 +133,4 @@ The above command will ensure all test dependencies are installed in your curren
 Alternatively, individual components of pyracing can be tested by executing any of the following commands from the root directory of the pyracing repository::
 
 	nosetests pyracing.test.meets
+	nosetests pyracing.test.races

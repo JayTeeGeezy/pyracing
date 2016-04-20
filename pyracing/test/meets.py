@@ -1,76 +1,61 @@
-from datetime import datetime, timedelta
-import unittest
-
-import cache_requests
-from lxml import html
-import pymongo
-import pypunters
-import pyracing
+from .common import *
 
 
-def setUpModule():
-	
-	database = pymongo.MongoClient()['pyracing_test']
-
-	http_client = cache_requests.Session()
-	html_parser = html.fromstring
-	scraper = pypunters.Scraper(http_client, html_parser)
-
-	pyracing.initialize(database, scraper)
-
-
-class GetHistoricalMeetsByDateTest(unittest.TestCase):
+class GetHistoricalMeetsByDateTest(EntityTest):
 
 	@classmethod
 	def setUpClass(cls):
 
-		cls.date = datetime(2016, 2, 1)
-
-		cls.meets = pyracing.Meet.get_meets_by_date(cls.date)
+		cls.meets = pyracing.Meet.get_meets_by_date(historical_date)
 
 	def test_types(self):
 		"""The get_meets_by_date method should return a list of Meet objects"""
-		
-		self.assertIsInstance(self.meets, list)
-		self.assertGreater(len(self.meets), 0)
-		for meet in self.meets:
-			self.assertIsInstance(meet, pyracing.Meet)
+
+		self.check_types(self.meets, list, pyracing.Meet)
 
 	def test_ids(self):
 		"""All Meet objects returned by get_meets_by_date should have a database ID"""
 		
-		for meet in self.meets:
-			self.assertIn('_id', meet)
-			self.assertIsNotNone(meet['_id'])
+		self.check_ids(self.meets)
 
 	def test_scraped_at_dates(self):
 		"""All Meet objects returned by get_meets_by_date should have a scraped_at date"""
 		
-		for meet in self.meets:
-			self.assertIn('scraped_at', meet)
-			self.assertIsNotNone(meet['scraped_at'])
+		self.check_scraped_at_dates(self.meets)
 
 	def test_no_rescrape(self):
 		"""Subsequent calls to get_meets_by_date for the same historical date should retrieve data from the database"""
 
-		old_ids = [meet['_id'] for meet in self.meets]
-
-		new_ids = [meet['_id'] for meet in pyracing.Meet.get_meets_by_date(self.date)]
-
-		for new_id in new_ids:
-			self.assertIn(new_id, old_ids)
+		self.check_no_rescrape(pyracing.Meet.get_meets_by_date, historical_date)
 
 
-class GetFutureMeetsByDateTest(unittest.TestCase):
+class GetFutureMeetsByDateTest(EntityTest):
 
 	def test_rescrape(self):
 		"""Subsequent calls to get_meets_by_date for the same future date should replace data in the database"""
-		
-		date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-		old_ids = [meet['_id'] for meet in pyracing.Meet.get_meets_by_date(date)]
 
-		new_ids = [meet['_id'] for meet in pyracing.Meet.get_meets_by_date(date)]
+		self.check_rescrape(pyracing.Meet.get_meet_by_id, pyracing.Meet.get_meets_by_date, future_date)
+
+
+class MeetPropertiesTest(EntityTest):
+
+	def test_races(self):
+		"""The races property should return a list of races occuring at the meet"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+
+		self.assertEqual(pyracing.Race.get_races_by_meet(meet), meet.races)
+
+
+class DeleteMeetTest(EntityTest):
+
+	def test_deletes_races(self):
+		"""Deleting a meet should also delete any races occurring at that meet"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		old_ids = [race['_id'] for race in meet.races]
+
+		meet.delete()
 
 		for old_id in old_ids:
-			self.assertIsNone(pyracing.Meet.get_meet_by_id(old_id))
-			self.assertNotIn(old_id, new_ids)
+			self.assertIsNone(pyracing.Race.get_race_by_id(old_id))
