@@ -1,6 +1,7 @@
 from .common import Entity
 from .meet import Meet
 from .race import Race
+from .runner import Runner
 
 
 def initialize(database, scraper):
@@ -16,7 +17,7 @@ def initialize(database, scraper):
 	Entity.database = database
 	Entity.scraper = scraper
 
-	for entity in (Meet, Race):
+	for entity in (Meet, Race, Runner):
 		entity.initialize()
 
 

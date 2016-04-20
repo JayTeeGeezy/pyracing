@@ -12,7 +12,7 @@ class Race(Entity):
 
 	@classmethod
 	def get_races_by_meet(cls, meet):
-		"""Get a list of races occurring on the specified date"""
+		"""Get a list of races occurring at the specified meet"""
 
 		races = cls.find_or_scrape(
 			filter={'meet_id': meet['_id']},
@@ -47,5 +47,12 @@ class Race(Entity):
 
 		return Meet.get_meet_by_id(self['meet_id'])
 
+	@property
+	def runners(self):
+		"""Return a list of the runners competing in this race"""
+
+		return Runner.get_runners_by_race(self)
+
 
 from .meet import Meet
+from .runner import Runner
