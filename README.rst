@@ -111,6 +111,20 @@ To get the race in which a given runner competes, access the runner's race prope
 	>>> race = runner[index].race
 
 
+Horses
+~~~~~~
+
+A horse represents the equine component of a given runner.
+
+To get the horse for a given runner, call the Horse.get_horse_by_runner method as follows:
+
+	>>> horse = pyracing.Horse.get_horse_by_runner(runner)
+
+The get_horse_by_runner method will return a single Horse object. The Horse class itself is derived from Python's built-in dict type, so a horse's details can be accessed as follows:
+
+	>>> name = horse['name']
+
+
 Event Hooks
 ~~~~~~~~~~~
 
@@ -147,6 +161,14 @@ handler must be a function that conforms to the handler signature as specified i
 +-----------------+-----------------+-------------------------------------------------+
 | saved_runner    | handler(runner) | AFTER runner has been saved to the database     |
 +-----------------+-----------------+-------------------------------------------------+
+| deleting_horse  | handler(horse)  | BEFORE horse is deleted from the database       |
++-----------------+-----------------+-------------------------------------------------+
+| deleted_horse   | handler(horse)  | AFTER horse has been deleted from the database  |
++-----------------+-----------------+-------------------------------------------------+
+| saving_horse    | handler(horse)  | BEFORE horse is saved to the database           |
++-----------------+-----------------+-------------------------------------------------+
+| saved_horse     | handler(horse)  | AFTER horse has been saved to the database      |
++-----------------+-----------------+-------------------------------------------------+
 
 
 Testing
@@ -165,3 +187,4 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.meets
 	nosetests pyracing.test.races
 	nosetests pyracing.test.runners
+	nosetests pyracing.test.horses

@@ -33,7 +33,7 @@ class GetHistoricalRunnersByRaceTest(EntityTest):
 		self.check_scraped_at_dates(self.runners)
 
 	def test_no_rescrape(self):
-		"""Subsequent calls to get_runners_by_race for the same historical date should retrieve data from the database"""
+		"""Subsequent calls to get_runners_by_race for the same historical race should retrieve data from the database"""
 
 		self.check_no_rescrape(pyracing.Runner.get_runners_by_race, self.race)
 
@@ -41,7 +41,7 @@ class GetHistoricalRunnersByRaceTest(EntityTest):
 class GetFutureRunnersByDateTest(EntityTest):
 
 	def test_rescrape(self):
-		"""Subsequent calls to get_runners_by_race for the same future date should replace data in the database"""
+		"""Subsequent calls to get_runners_by_race for the same future race should replace data in the database"""
 
 		meet = pyracing.Meet.get_meets_by_date(future_date)[0]
 		race = meet.races[0]

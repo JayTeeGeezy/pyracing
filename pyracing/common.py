@@ -56,6 +56,24 @@ class Entity(dict):
 		return entities
 
 	@classmethod
+	def find_or_scrape_one(cls, filter, scrape, scrape_args=None, scrape_kwargs=None, expiry_date=None):
+		"""Get a single entity by finding it in the database or scraping it from the web"""
+
+		cls.delete_expired(filter, expiry_date)
+		entity = cls.find_one(filter)
+
+		if entity is None:
+			if scrape_args is None: scrape_args = []
+			if scrape_kwargs is None: scrape_kwargs = {}
+			values = scrape(*scrape_args, **scrape_kwargs)
+			if values is not None:
+				entity = cls(values)
+				entity['scraped_at'] = datetime.now()
+				entity.save()
+
+		return entity
+
+	@classmethod
 	def get_database_collection(cls):
 		"""Get the database collection for this specific entity type"""
 
