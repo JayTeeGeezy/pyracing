@@ -81,3 +81,8 @@ class RunnerPropertiesTest(EntityTest):
 		"""The race property should return the race in which the runner is competing"""
 
 		self.assertEqual(pyracing.Race.get_race_by_id(self.runner['race_id']), self.runner.race)
+
+	def test_trainer(self):
+		"""The trainer property should return the actual trainer riding in the race"""
+		
+		self.assertEqual(pyracing.Trainer.get_trainer_by_runner(self.runner), self.runner.trainer)
