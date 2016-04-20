@@ -20,3 +20,12 @@ class Meet(Entity):
 			scrape_args=[date],
 			expiry_date=date
 			)
+
+	@property
+	def races(self):
+		"""Return a list of races occurring at this meet"""
+
+		return Race.get_races_by_meet(self)
+
+
+from .race import Race

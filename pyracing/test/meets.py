@@ -35,3 +35,13 @@ class GetFutureMeetsByDateTest(EntityTest):
 		"""Subsequent calls to get_meets_by_date for the same future date should replace data in the database"""
 
 		self.check_rescrape(pyracing.Meet.get_meet_by_id, pyracing.Meet.get_meets_by_date, future_date)
+
+
+class MeetPropertiesTest(EntityTest):
+
+	def test_races(self):
+		"""The races property should return a list of races occuring at the meet"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+
+		self.assertEqual(pyracing.Race.get_races_by_meet(meet), meet.races)

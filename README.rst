@@ -76,6 +76,10 @@ To get a list of races occurring at a given meet, call the Race.get_races_by_mee
 
 	>>> races = pyracing.Race.get_races_by_meet(meet)
 
+Alternatively, a list of races occurring at a given meet can be obtained by accessing the meet's races property as follows:
+
+	>>> races = meet.races
+
 The get_races_by_meet method will return a list of Race objects. The Race class itself is derived from Python's built-in dict type, so a race's details can be accessed as follows:
 
 	>>> number = races[index]['number']
