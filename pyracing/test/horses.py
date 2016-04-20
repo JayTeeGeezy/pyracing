@@ -47,3 +47,31 @@ class GetFutureHorseByRunnerTest(EntityTest):
 		new_horse = pyracing.Horse.get_horse_by_runner(runner)
 
 		self.assertNotEqual(old_horse['_id'], new_horse['_id'])
+
+
+class HorsePropertiesTest(EntityTest):
+
+	def test_performances(self):
+		"""The performances property should return a list of performances involving the horse"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		race = meet.races[0]
+		runner = race.runners[0]
+
+		self.assertEqual(pyracing.Performance.get_performances_by_horse(runner.horse), runner.horse.performances)
+
+
+class DeleteHorseTest(EntityTest):
+
+	def test_deletes_performances(self):
+		"""Deleting a horse should also delete any performances involving that horse"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		race = meet.races[0]
+		runner = race.runners[0]
+		old_ids = [performance['_id'] for performance in runner.horse.performances]
+
+		runner.horse.delete()
+
+		for old_id in old_ids:
+			self.assertIsNone(pyracing.Performance.get_performance_by_id(old_id))
