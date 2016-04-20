@@ -27,3 +27,12 @@ class Race(Entity):
 				race.save()
 
 		return races
+
+	@property
+	def meet(self):
+		"""Return the meet at which this race occurs"""
+
+		return Meet.get_meet_by_id(self['meet_id'])
+
+
+from .meet import Meet

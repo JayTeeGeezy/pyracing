@@ -45,3 +45,14 @@ class GetFutureRacesByDateTest(EntityTest):
 		meet = pyracing.Meet.get_meets_by_date(future_date)[0]
 
 		self.check_rescrape(pyracing.Race.get_race_by_id, pyracing.Race.get_races_by_meet, meet)
+
+
+class RacePropertiesTest(EntityTest):
+
+	def test_meet(self):
+		"""The meet property should return the meet at which the race occurs"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		race = pyracing.Race.get_races_by_meet(meet)[0]
+
+		self.assertEqual(pyracing.Meet.get_meet_by_id(race['meet_id']), race.meet)

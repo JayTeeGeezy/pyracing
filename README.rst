@@ -74,11 +74,15 @@ A race represents a collection of runners competing in a single event at a given
 
 To get a list of races occurring at a given meet, call the Race.get_races_by_meet method as follows:
 
-	>>> pyracing.Race.get_races_by_meet(meet)
+	>>> races = pyracing.Race.get_races_by_meet(meet)
 
 The get_races_by_meet method will return a list of Race objects. The Race class itself is derived from Python's built-in dict type, so a race's details can be accessed as follows:
 
 	>>> number = races[index]['number']
+
+To get the meet at which a given race occurs, access the race's meet property as follows:
+
+	>>> meet = races[index].meet
 
 
 Testing
