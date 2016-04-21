@@ -29,7 +29,7 @@ class Iterator:
 
 			next_date = date_from
 
-			while (date_from < date_to and next_date <= date_to) or (date_from > date_to and next_date >= date_to):
+			while (date_from <= date_to and next_date <= date_to) or (date_from > date_to and next_date >= date_to):
 
 				log_time(
 					target=self.process_date,
@@ -37,7 +37,7 @@ class Iterator:
 					message='{prefix} {date}'.format(prefix=self.message_prefix, date=next_date.strftime(locale.nl_langinfo(locale.D_FMT)))
 					)
 
-				if date_from < date_to:
+				if date_from <= date_to:
 					next_date += timedelta(days=1)
 				else:
 					next_date -= timedelta(days=1)
