@@ -120,15 +120,17 @@ Runner objects also expose the following calculated values as properties that ca
 
 The following properties (also accessible using dot-notation) return PerformanceList objects containing a filtered list of the horse's prior performances:
 
-+--------------------+----------------------------------------------------------------------+
-| Property           | Description                                                          |
-+====================+======================================================================+
-| runner.at_distance | All prior performances at a distance within 100m of the current race |
-+--------------------+----------------------------------------------------------------------+
-| runner.career      | All performances prior to the current race                           |
-+--------------------+----------------------------------------------------------------------+
-| runner.on_track    | All prior performances on the current track                          |
-+--------------------+----------------------------------------------------------------------+
++-----------------------------+----------------------------------------------------------------------------------------+
+| Property                    | Description                                                                            |
++=============================+========================================================================================+
+| runner.at_distance          | All prior performances at a distance within 100m of the current race                   |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.at_distance_on_track | All prior performances at a distance within 100m of the current race on the same track |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.career               | All performances prior to the current race                                             |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.on_track             | All prior performances on the current track                                            |
++-----------------------------+----------------------------------------------------------------------------------------+
 
 
 Horses

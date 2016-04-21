@@ -61,6 +61,12 @@ class Runner(Entity):
 		return PerformanceList([performance for performance in self.career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
 
 	@property
+	def at_distance_on_track(self):
+		"""Return a PerformanceList containing all of the horse's prior performances within 100m of the current race's distance on the current track"""
+
+		return PerformanceList([performance for performance in self.at_distance if performance in self.on_track])
+
+	@property
 	def career(self):
 		"""Return a PerformanceList containing all of the horse's performances prior to the current race"""
 

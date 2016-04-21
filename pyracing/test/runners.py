@@ -77,6 +77,11 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.check_performance_list(self.runner.at_distance, 4)
 
+	def test_at_distance_on_track(self):
+		"""The at_distance_on_track property should return a PerformanceList containing all prior performances within 100m of the current race distance on the current track"""
+
+		self.check_performance_list(self.runner.at_distance_on_track, 0)
+
 	def test_career(self):
 		"""The career property should return a PerformanceList containing all of the horse's performances prior to the current race"""
 
