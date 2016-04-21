@@ -73,6 +73,24 @@ class Runner(Entity):
 		return PerformanceList([performance for performance in self.horse.performances if performance['date'] < self.race.meet['date']])
 
 	@property
+	def firm(self):
+		"""Return a PerformanceList containing all of the horse's prior performances on firm tracks"""
+
+		return self.get_performances_by_track_condition('firm')
+
+	@property
+	def good(self):
+		"""Return a PerformanceList containing all of the horse's prior performances on good tracks"""
+
+		return self.get_performances_by_track_condition('good')
+
+	@property
+	def heavy(self):
+		"""Return a PerformanceList containing all of the horse's prior performances on heavy tracks"""
+
+		return self.get_performances_by_track_condition('heavy')
+
+	@property
 	def horse(self):
 		"""Return the actual horse running in the race"""
 
@@ -97,10 +115,27 @@ class Runner(Entity):
 		return Race.get_race_by_id(self['race_id'])
 
 	@property
+	def soft(self):
+		"""Return a PerformanceList containing all of the horse's prior performances on soft tracks"""
+
+		return self.get_performances_by_track_condition('soft')
+
+	@property
+	def synthetic(self):
+		"""Return a PerformanceList containing all of the horse's prior performances on synthetic tracks"""
+
+		return self.get_performances_by_track_condition('synthetic')
+
+	@property
 	def trainer(self):
 		"""Return the trainer responsible for the runner"""
 
 		return Trainer.get_trainer_by_runner(self)
+
+	def get_performances_by_track_condition(self, track_condition):
+		"""Return a PerformanceList containing all prior performances on the specified track condition"""
+
+		return PerformanceList([performance for performance in self.career if performance['track_condition'].upper().startswith(track_condition.upper())])
 
 
 from .race import Race

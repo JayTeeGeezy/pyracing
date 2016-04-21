@@ -87,6 +87,21 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.check_performance_list(self.runner.career, 6)
 
+	def test_firm(self):
+		"""The firm property should return a PerformanceList containing all prior performances on FIRM tracks"""
+
+		self.check_performance_list(self.runner.firm, 0)
+
+	def test_good(self):
+		"""The good property should return a PerformanceList containing all prior performances on GOOD tracks"""
+
+		self.check_performance_list(self.runner.good, 4)
+
+	def test_heavy(self):
+		"""The heavy property should return a PerformanceList containing all prior performances on HEAVY tracks"""
+
+		self.check_performance_list(self.runner.heavy, 1)
+
 	def test_horse(self):
 		"""The horse property should return the actual horse running in the race"""
 		
@@ -106,6 +121,16 @@ class RunnerPropertiesTest(EntityTest):
 		"""The race property should return the race in which the runner is competing"""
 
 		self.assertEqual(pyracing.Race.get_race_by_id(self.runner['race_id']), self.runner.race)
+
+	def test_soft(self):
+		"""The soft property should return a PerformanceList containing all prior performances on SOFT tracks"""
+
+		self.check_performance_list(self.runner.soft, 1)
+
+	def test_synthetic(self):
+		"""The synthetic property should return a PerformanceList containing all prior performances on SYNTHETIC tracks"""
+
+		self.check_performance_list(self.runner.synthetic, 0)
 
 	def test_trainer(self):
 		"""The trainer property should return the actual trainer riding in the race"""
