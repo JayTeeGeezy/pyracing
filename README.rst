@@ -183,6 +183,59 @@ The get_performances_by_horse method will return a list of Performance objects. 
 	>>> result = performances[index]['result']
 
 
+Batch Processing
+~~~~~~~~~~~~~~~~
+
+The pyracing package includes an Iterator class to facilitate the batch processing of ALL racing data for a specified date range.
+
+To implement batch processing, create an instance of the Iterator class and call its process_dates method as follows:
+
+	>>> iterator = pyracing.Iterator(threads=1, message_prefix='processing', {keyword arguments})
+	>>> iterator.process_dates(date_from, date_to)
+
+Alternatively, to process ALL racing data for a single date instead, call the process_date method as follows:
+
+	>>> iterator.process_date(date)
+
+The threads and message_prefix arguments to the Iterator constructor are both optional.
+
+The threads argument specifies the number of threads to use for processing entities (all threads will be joined after processing a single date's data, just prior to executing the date_post_processor method if specified - see below). The default value for threads is 1.
+
+The message_prefix argument specifies a text string to be prepended to a description of each entity being processed in the messages logged by the iterator. The default value for message_prefix is 'processing'.
+
+Any combination of the following keyword arguments may also be passed to the Iterator constructor, with each specifying a callable that will be called at a specific time during the processing of entities:
+
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| Keyword               | Calls                              | When                                                                             |
++=======================+====================================+==================================================================================+
+| date_pre_processor    | date_pre_processor(date)           | BEFORE meets occurring on date are processed                                     |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| date_post_processor   | date_post_processor(date)          | AFTER meets occurring on date have been processed (and threads have been joined) |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| meet_pre_processor    | meet_pre_processor(meet)           | BEFORE races occurring at meet are processed                                     |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| meet_post_processor   | meet_post_processor(mmet)          | AFTER races occurring at meet have been processed                                |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| race_pre_processor    | race_pre_processor(race)           | BEFORE runners competing in race are processed                                   |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| race_post_processor   | race_post_processor(race)          | AFTER runners competing in race have been processed                              |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| runner_pre_processor  | runner_pre_processor(runner)       | BEFORE the runner's horse, jockey and trainer are processed                      |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| runner_post_processor | runner_post_processor(runner)      | AFTER the runner's horse, jockey and trainer have been processed                 |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| horse_pre_processor   | horse_pre_processor(horse)         | BEFORE the horse's performances are processed                                    |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| horse_post_processor  | horse_post_processor(horse)        | AFTER the horse's performances have been processed                               |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| jockey_processor      | jockey_processor(jockey)           | ONCE for each run by a jockey                                                    |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| trainer_processor     | trainer_processor(trainer)         | ONCE for each run by a trainer                                                   |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+| performance_processor | performance_processor(performance) | ONCE for each performance by a horse                                             |
++-----------------------+------------------------------------+----------------------------------------------------------------------------------+
+
+
 Event Hooks
 ~~~~~~~~~~~
 
@@ -273,3 +326,4 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.jockeys
 	nosetests pyracing.test.trainers
 	nosetests pyracing.test.performances
+	nosetests pyracing.test.iterator
