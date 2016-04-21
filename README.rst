@@ -127,6 +127,8 @@ The following properties (also accessible using dot-notation) return Performance
 +--------------------+----------------------------------------------------------------------+
 | runner.career      | All performances prior to the current race                           |
 +--------------------+----------------------------------------------------------------------+
+| runner.on_track    | All prior performances on the current track                          |
++--------------------+----------------------------------------------------------------------+
 
 
 Horses

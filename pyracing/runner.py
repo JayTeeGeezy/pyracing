@@ -79,6 +79,12 @@ class Runner(Entity):
 		return Jockey.get_jockey_by_runner(self)
 
 	@property
+	def on_track(self):
+		"""Return a PerformanceList containing all of the horse's prior performances on the current track"""
+
+		return PerformanceList([performance for performance in self.career if performance['track'] == self.race.meet['track']])
+
+	@property
 	def race(self):
 		"""Return the race in which this runner competes"""
 
