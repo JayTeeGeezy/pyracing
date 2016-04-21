@@ -112,11 +112,13 @@ To get the race in which a given runner competes, access the runner's race prope
 
 Runner objects also expose the following calculated values as properties that can be accessed using dot-notation:
 
-+------------+---------------------------------------------------------------------------------------------------+
-| Property   | Description                                                                                       |
-+============+===================================================================================================+
-| runner.age | The horse's official age as at the date of the race (calculated according to Australia standards) |
-+------------+---------------------------------------------------------------------------------------------------+
++---------------+---------------------------------------------------------------------------------------------------+
+| Property      | Description                                                                                       |
++===============+===================================================================================================+
+| runner.age    | The horse's official age as at the date of the race (calculated according to Australia standards) |
++---------------+---------------------------------------------------------------------------------------------------+
+| runner.career | A PerformanceList containing all of the horse's performances prior to the current race            |
++---------------+---------------------------------------------------------------------------------------------------+
 
 
 Horses

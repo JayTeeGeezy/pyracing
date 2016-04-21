@@ -1,4 +1,5 @@
 from .common import Entity
+from .performance_list import PerformanceList
 
 
 class Runner(Entity):
@@ -52,6 +53,12 @@ class Runner(Entity):
 		if 'foaled' in self.horse:
 			birthday = self.horse['foaled'].replace(month=8, day=1)
 			return (self.race.meet['date'] - birthday).days // 365
+
+	@property
+	def career(self):
+		"""Return a PerformanceList containing all of the horse's performances prior to the current race"""
+
+		return PerformanceList([performance for performance in self.horse.performances if performance['date'] < self.race.meet['date']])
 
 	@property
 	def horse(self):
