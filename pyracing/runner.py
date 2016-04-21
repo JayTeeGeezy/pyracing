@@ -41,6 +41,10 @@ class Runner(Entity):
 		cls.create_index([('race_id', 1)])
 		cls.create_index([('race_id', 1), ('scraped_at', 1)])
 
+	def __str__(self):
+
+		return 'runner {number} in {race}'.format(number=self['number'], race=self.race)
+
 	@property
 	def horse(self):
 		"""Return the actual horse running in the race"""

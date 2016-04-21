@@ -1,3 +1,5 @@
+import locale
+
 from .common import Entity
 
 
@@ -27,6 +29,10 @@ class Meet(Entity):
 
 		cls.create_index([('date', 1)])
 		cls.create_index([('date', 1), ('scraped_at', 1)])
+
+	def __str__(self):
+
+		return '{track} on {date}'.format(track=self['track'], date=self['date'].strftime(locale.nl_langinfo(locale.D_FMT)))
 
 	@property
 	def races(self):

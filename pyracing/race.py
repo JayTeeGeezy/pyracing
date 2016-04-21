@@ -41,6 +41,10 @@ class Race(Entity):
 		cls.create_index([('meet_id', 1)])
 		cls.create_index([('meet_id', 1), ('scraped_at', 1)])
 
+	def __str__(self):
+
+		return 'race {number} at {meet}'.format(number=self['number'], meet=self.meet)
+
 	@property
 	def meet(self):
 		"""Return the meet at which this race occurs"""

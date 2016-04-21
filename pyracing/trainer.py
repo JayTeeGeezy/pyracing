@@ -28,3 +28,7 @@ class Trainer(Entity):
 
 		cls.create_index([('url', 1)])
 		cls.create_index([('url', 1), ('scraped_at', 1)])
+
+	def __str__(self):
+
+		return 'trainer {name}'.format(name=self['name'])
