@@ -27,9 +27,7 @@ class IteratorTest(unittest.TestCase):
 				processed_items[item.__class__.__name__] = []
 			processed_items[item.__class__.__name__].append(item)
 
-		pyracing.iterate(
-			date_from=date_from,
-			date_to=date_to,
+		iterator = pyracing.Iterator(
 			date_pre_processor=pre_process_item,
 			date_post_processor=post_process_item,
 			meet_pre_processor=pre_process_item,
@@ -44,6 +42,7 @@ class IteratorTest(unittest.TestCase):
 			trainer_processor=process_item,
 			performance_processor=process_item
 			)
+		iterator.iterate(date_from, date_to)
 
 		for cls in (datetime, pyracing.Meet, pyracing.Race, pyracing.Runner, pyracing.Horse):
 			for collection in (pre_processed_items, post_processed_items):
