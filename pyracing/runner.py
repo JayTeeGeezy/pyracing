@@ -132,6 +132,12 @@ class Runner(Entity):
 
 		return Trainer.get_trainer_by_runner(self)
 
+	@property
+	def with_jockey(self):
+		"""Return a PerformanceList containing all of the horse's prior performances with the same jockey"""
+
+		return PerformanceList([performance for performance in self.career if performance['jockey_url'] == self['jockey_url']])
+
 	def get_performances_by_track_condition(self, track_condition):
 		"""Return a PerformanceList containing all prior performances on the specified track condition"""
 

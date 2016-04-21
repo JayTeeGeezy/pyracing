@@ -141,6 +141,8 @@ The following properties (also accessible using dot-notation) return Performance
 +-----------------------------+----------------------------------------------------------------------------------------+
 | runner.synthetic            | All prior performances on SYNTHETIC tracks                                             |
 +-----------------------------+----------------------------------------------------------------------------------------+
+| runner.with_jockey          | All prior performances for the horse with the same jockey                              |
++-----------------------------+----------------------------------------------------------------------------------------+
 
 
 Horses

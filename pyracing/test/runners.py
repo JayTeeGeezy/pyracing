@@ -137,6 +137,11 @@ class RunnerPropertiesTest(EntityTest):
 		
 		self.assertEqual(pyracing.Trainer.get_trainer_by_runner(self.runner), self.runner.trainer)
 
+	def test_with_jockey(self):
+		"""The with_jockey property should return a PerformanceList containing all prior performances with the same jockey"""
+
+		self.check_performance_list(self.runner.with_jockey, 1)
+
 	def check_performance_list(self, performance_list, expected_length):
 		"""Check that the specified performance list has the expected length"""
 
