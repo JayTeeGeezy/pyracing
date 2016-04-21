@@ -46,7 +46,6 @@ setup(
 		'pypunters'
 	],
 	dependency_links=[
-		'https://github.com/JayTeeGeezy/pypunters/tarball/develop#egg=pypunters-0.0.0'
 	],
 	include_package_data=True,
 	zip_safe=False

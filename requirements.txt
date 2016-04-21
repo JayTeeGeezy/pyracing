@@ -6,7 +6,7 @@ MarkupSafe==0.23
 nose==1.3.7
 psutil==4.1.0
 pymongo==3.2.2
--e git+git@github.com:JayTeeGeezy/pypunters.git@6deddf7701749c97596d8da2fe5902714d64fc97#egg=pypunters-develop
+pypunters==1.0.0
 redis==2.10.5
 redislite==3.0.271
 requests==2.9.1
