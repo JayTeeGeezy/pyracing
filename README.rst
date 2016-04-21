@@ -112,13 +112,21 @@ To get the race in which a given runner competes, access the runner's race prope
 
 Runner objects also expose the following calculated values as properties that can be accessed using dot-notation:
 
-+---------------+---------------------------------------------------------------------------------------------------+
-| Property      | Description                                                                                       |
-+===============+===================================================================================================+
-| runner.age    | The horse's official age as at the date of the race (calculated according to Australia standards) |
-+---------------+---------------------------------------------------------------------------------------------------+
-| runner.career | A PerformanceList containing all of the horse's performances prior to the current race            |
-+---------------+---------------------------------------------------------------------------------------------------+
++------------+---------------------------------------------------------------------------------------------------+
+| Property   | Description                                                                                       |
++============+===================================================================================================+
+| runner.age | The horse's official age as at the date of the race (calculated according to Australia standards) |
++------------+---------------------------------------------------------------------------------------------------+
+
+The following properties (also accessible using dot-notation) return PerformanceList objects containing a filtered list of the horse's prior performances:
+
++--------------------+----------------------------------------------------------------------+
+| Property           | Description                                                          |
++====================+======================================================================+
+| runner.at_distance | All prior performances at a distance within 100m of the current race |
++--------------------+----------------------------------------------------------------------+
+| runner.career      | All performances prior to the current race                           |
++--------------------+----------------------------------------------------------------------+
 
 
 Horses

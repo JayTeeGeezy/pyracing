@@ -72,13 +72,15 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.assertEqual(4, self.runner.age)
 
+	def test_at_distance(self):
+		"""The at_distance property should return a PerformanceList containing all of the horse's performances within 100m of the current race distance prior to the current race"""
+
+		self.check_performance_list(self.runner.at_distance, 4)
+
 	def test_career(self):
 		"""The career property should return a PerformanceList containing all of the horse's performances prior to the current race"""
 
-		performance_list = self.runner.career
-
-		self.assertIsInstance(performance_list, pyracing.PerformanceList)
-		self.assertEqual(6, len(performance_list))
+		self.check_performance_list(self.runner.career, 6)
 
 	def test_horse(self):
 		"""The horse property should return the actual horse running in the race"""
@@ -99,3 +101,9 @@ class RunnerPropertiesTest(EntityTest):
 		"""The trainer property should return the actual trainer riding in the race"""
 		
 		self.assertEqual(pyracing.Trainer.get_trainer_by_runner(self.runner), self.runner.trainer)
+
+	def check_performance_list(self, performance_list, expected_length):
+		"""Check that the specified performance list has the expected length"""
+
+		self.assertIsInstance(performance_list, pyracing.PerformanceList)
+		self.assertEqual(expected_length, len(performance_list))

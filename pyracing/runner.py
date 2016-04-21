@@ -55,6 +55,12 @@ class Runner(Entity):
 			return (self.race.meet['date'] - birthday).days // 365
 
 	@property
+	def at_distance(self):
+		"""Return a PerformanceList containing all of the horse's prior performances within 100m of the current race's distance"""
+
+		return PerformanceList([performance for performance in self.career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
+
+	@property
 	def career(self):
 		"""Return a PerformanceList containing all of the horse's performances prior to the current race"""
 
