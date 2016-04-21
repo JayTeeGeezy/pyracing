@@ -110,6 +110,14 @@ To get the race in which a given runner competes, access the runner's race prope
 
 	>>> race = runner[index].race
 
+Runner objects also expose the following calculated values as properties that can be accessed using dot-notation:
+
++------------+---------------------------------------------------------------------------------------------------+
+| Property   | Description                                                                                       |
++============+===================================================================================================+
+| runner.age | The horse's official age as at the date of the race (calculated according to Australia standards) |
++------------+---------------------------------------------------------------------------------------------------+
+
 
 Horses
 ~~~~~~

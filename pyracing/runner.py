@@ -46,6 +46,14 @@ class Runner(Entity):
 		return 'runner {number} in {race}'.format(number=self['number'], race=self.race)
 
 	@property
+	def age(self):
+		"""Return the horse's official age as at the time of the race"""
+
+		if 'foaled' in self.horse:
+			birthday = self.horse['foaled'].replace(month=8, day=1)
+			return (self.race.meet['date'] - birthday).days // 365
+
+	@property
 	def horse(self):
 		"""Return the actual horse running in the race"""
 

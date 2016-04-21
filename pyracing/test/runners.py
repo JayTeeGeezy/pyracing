@@ -67,6 +67,11 @@ class RunnerPropertiesTest(EntityTest):
 						break
 				break
 
+	def test_age(self):
+		"""The age property should return the official age of the horse as at the time of the race"""
+
+		self.assertEqual(4, self.runner.age)
+
 	def test_horse(self):
 		"""The horse property should return the actual horse running in the race"""
 		
