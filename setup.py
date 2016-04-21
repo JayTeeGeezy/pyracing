@@ -12,7 +12,7 @@ setup(
 	description='Python horse racing class library',
 	long_description=read_text('README.rst'),
 	classifiers=[
-		'Development Status :: 1 - Planning',
+		'Development Status :: 2 - Pre-Alpha',
 		'Environment :: No Input/Output (Daemon)',
 		'Intended Audience :: Developers',
 		'License :: OSI Approved :: MIT License',
@@ -21,7 +21,7 @@ setup(
 		'Programming Language :: Python :: 3.4',
 		'Topic :: Software Development :: Libraries :: Python Modules'
 	],
-	keywords='horse racing',
+	keywords='horse racing meets races runners horses jockeys trainers performances',
 	url='https://github.com/JayTeeGeezy/pyracing',
 	author='Jason Green',
 	author_email='JayTeeGeezy@outlook.com',
