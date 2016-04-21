@@ -1,15 +1,22 @@
 from datetime import timedelta
+import locale
 
 import pyracing
+
+from .profiling import log_time
 
 
 class Iterator:
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, message_prefix=None, *args, **kwargs):
 		"""Initialize instance dependencies"""
 
 		self.args = args
 		self.kwargs = kwargs
+
+		self.message_prefix = 'processing'
+		if message_prefix is not None:
+			self.message_prefix = message_prefix
 
 	def iterate(self, date_from, date_to):
 		"""Iterate through all racing data for the given date range"""
@@ -20,7 +27,11 @@ class Iterator:
 
 			while (date_from < date_to and next_date <= date_to) or (date_from > date_to and next_date >= date_to):
 
-				self.process_date(next_date)
+				log_time(
+					target=self.process_date,
+					target_args=[next_date],
+					message='{prefix} {date}'.format(prefix=self.message_prefix, date=next_date.strftime(locale.nl_langinfo(locale.D_FMT)))
+					)
 
 				if date_from < date_to:
 					next_date += timedelta(days=1)
@@ -35,7 +46,11 @@ class Iterator:
 
 		if self.must_process_meets:
 			for meet in pyracing.Meet.get_meets_by_date(date):
-				self.process_meet(meet)
+				log_time(
+					target=self.process_meet,
+					target_args=[meet],
+					message='{prefix} {meet}'.format(prefix=self.message_prefix, meet=meet)
+					)
 
 		if 'date_post_processor' in self.kwargs and self.kwargs['date_post_processor'] is not None:
 			self.kwargs['date_post_processor'](date)
@@ -48,7 +63,11 @@ class Iterator:
 
 		if self.must_process_races:
 			for race in meet.races:
-				self.process_race(race)
+				log_time(
+					target=self.process_race,
+					target_args=[race],
+					message='{prefix} {race}'.format(prefix=self.message_prefix, race=race)
+					)
 
 		if 'meet_post_processor' in self.kwargs and self.kwargs['meet_post_processor'] is not None:
 			self.kwargs['meet_post_processor'](meet)
@@ -61,7 +80,11 @@ class Iterator:
 
 		if self.must_process_runners:
 			for runner in race.runners:
-				self.process_runner(runner)
+				log_time(
+					target=self.process_runner,
+					target_args=[runner],
+					message='{prefix} {runner}'.format(prefix=self.message_prefix, runner=runner)
+					)
 
 		if 'race_post_processor' in self.kwargs and self.kwargs['race_post_processor'] is not None:
 			self.kwargs['race_post_processor'](race)
@@ -73,13 +96,25 @@ class Iterator:
 			self.kwargs['runner_pre_processor'](runner)
 
 		if self.must_process_horses:
-			self.process_horse(runner.horse)
+			log_time(
+				target=self.process_horse,
+				target_args=[runner.horse],
+				message='{prefix} {horse}'.format(prefix=self.message_prefix, horse=runner.horse)
+				)
 
 		if self.must_process_jockeys:
-			self.process_jockey(runner.jockey)
+			log_time(
+				target=self.process_jockey,
+				target_args=[runner.jockey],
+				message='{prefix} {jockey}'.format(prefix=self.message_prefix, jockey=runner.jockey)
+				)
 
 		if self.must_process_trainers:
-			self.process_trainer(runner.trainer)
+			log_time(
+				target=self.process_trainer,
+				target_args=[runner.trainer],
+				message='{prefix} {trainer}'.format(prefix=self.message_prefix, trainer=runner.trainer)
+				)
 
 		if 'runner_post_processor' in self.kwargs and self.kwargs['runner_post_processor'] is not None:
 			self.kwargs['runner_post_processor'](runner)
@@ -92,7 +127,11 @@ class Iterator:
 
 		if self.must_process_performances:
 			for performance in horse.performances:
-				self.process_performance(performance)
+				log_time(
+					target=self.process_performance,
+					target_args=[performance],
+					message='{prefix} {performance}'.format(prefix=self.message_prefix, performance=performance)
+					)
 
 		if 'horse_post_processor' in self.kwargs and self.kwargs['horse_post_processor'] is not None:
 			self.kwargs['horse_post_processor'](horse)

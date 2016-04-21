@@ -1,3 +1,5 @@
+import locale
+
 from .common import Entity
 
 
@@ -32,3 +34,23 @@ class Performance(Entity):
 
 		cls.create_index([('horse_url', 1)])
 		cls.create_index([('horse_url', 1), ('scraped_at', 1)])
+
+	def __str__(self):
+
+		return 'performance for {horse} at {track} on {date}'.format(horse=self.horse, track=self['track'], date=self['date'].strftime(locale.nl_langinfo(locale.D_FMT)))
+
+	@property
+	def horse(self):
+		"""Return the actual horse involved in this performance"""
+
+		return Horse.get_horse_by_performance(self)
+
+	@property
+	def jockey(self):
+		"""Return the actual jockey involved in this performance"""
+
+		return Jockey.get_jockey_by_performance(self)
+
+
+from .horse import Horse
+from .jockey import Jockey
