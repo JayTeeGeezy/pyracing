@@ -6,3 +6,9 @@ class PerformanceList(list):
 		super().__init__(*args, **kwargs)
 
 		self.sort(key=lambda performance: performance['date'], reverse=True)
+
+	@property
+	def starts(self):
+		"""Return the number of starts included in this performance list"""
+
+		return len(self)

@@ -120,7 +120,7 @@ Runner objects also expose the following calculated values as properties that ca
 | runner.up  | The number of races run by the horse (including the this one) since the last spell of 90 days or more  |
 +------------+--------------------------------------------------------------------------------------------------------+
 
-The following properties (also accessible using dot-notation) return PerformanceList objects containing a filtered list of the horse's prior performances:
+The following properties (also accessible using dot-notation) return PerformanceList objects (see below) containing a filtered list of the horse's prior performances:
 
 +-----------------------------+----------------------------------------------------------------------------------------+
 | Property                    | Description                                                                            |
@@ -149,6 +149,14 @@ The following properties (also accessible using dot-notation) return Performance
 +-----------------------------+----------------------------------------------------------------------------------------+
 | runner.with_jockey          | All prior performances for the horse with the same jockey                              |
 +-----------------------------+----------------------------------------------------------------------------------------+
+
+The PerformanceList objects returned by the properties described above expose the following properties:
+
++----------+-------------------------------------------------------------+
+| Property | Description                                                 |
++==========+=============================================================+
+| starts   | The total number of starts included in the performance list |
++----------+-------------------------------------------------------------+
 
 
 Horses
@@ -366,6 +374,7 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.jockeys
 	nosetests pyracing.test.trainers
 	nosetests pyracing.test.performances
+	nosetests pyracing.test.performance_lists
 	nosetests pyracing.test.iterator
 
 
