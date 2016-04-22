@@ -120,7 +120,7 @@ Runner objects also expose the following calculated values as properties that ca
 | runner.up  | The number of races run by the horse (including the this one) since the last spell of 90 days or more  |
 +------------+--------------------------------------------------------------------------------------------------------+
 
-The following properties (also accessible using dot-notation) return PerformanceList objects containing a filtered list of the horse's prior performances:
+The following properties (also accessible using dot-notation) return PerformanceList objects (see below) containing a filtered list of the horse's prior performances:
 
 +-----------------------------+----------------------------------------------------------------------------------------+
 | Property                    | Description                                                                            |
@@ -149,6 +149,46 @@ The following properties (also accessible using dot-notation) return Performance
 +-----------------------------+----------------------------------------------------------------------------------------+
 | runner.with_jockey          | All prior performances for the horse with the same jockey                              |
 +-----------------------------+----------------------------------------------------------------------------------------+
+
+The PerformanceList objects returned by the properties described above expose the following properties:
+
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| Property               | Description                                                                                                             |
++========================+=========================================================================================================================+
+| average_prize_money    | The average prize money earned per start in the performance list (None if no starts)                                    |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| average_starting_price | The average starting price per start in the performance list (None if no starts)                                        |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| fourths                | The number of fourth placing performances included in the performance list                                              |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| fourth_pct             | The number of fourths as a percentage of the number of starts (None if no starts)                                       |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| places                 | The number of placing (1st, 2nd and 3rd) performances included in the performance list                                  |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| place_pct              | The number of places as a percentage of the number of starts (None if no starts)                                        |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| roi                    | The total starting price for wins less the number of starts as a percentage of the number of starts (None if no starts) |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| seconds                | The number of second placing performances included in the performance list                                              |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| second_pct             | The number of seconds as a percentage of the number of starts (None if no starts)                                       |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| starts                 | The total number of starts included in the performance list                                                             |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| thirds                 | The number of third placing performances included in the performance list                                               |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| third_pct              | The number of thirds as a percentage of the number of starts (None if no starts)                                        |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| total_prize_money      | The total prize money earned in the performance list                                                                    |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| wins                   | The number of winning performances included in the performance list                                                     |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| win_pct                | The number of wins as a percentage of the number of starts (None if no starts)                                          |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+
+An example of accessing these statistics is given below:
+
+	>>> good_wins = runner.good.wins
 
 
 Horses
@@ -366,6 +406,7 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.jockeys
 	nosetests pyracing.test.trainers
 	nosetests pyracing.test.performances
+	nosetests pyracing.test.performance_lists
 	nosetests pyracing.test.iterator
 
 
