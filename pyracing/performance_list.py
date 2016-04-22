@@ -12,3 +12,9 @@ class PerformanceList(list):
 		"""Return the number of starts included in this performance list"""
 
 		return len(self)
+
+	@property
+	def wins(self):
+		"""Return the number of wins included in this performance list"""
+
+		return len([performance for performance in self if performance['result'] == 1])

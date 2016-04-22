@@ -157,6 +157,12 @@ The PerformanceList objects returned by the properties described above expose th
 +==========+=============================================================+
 | starts   | The total number of starts included in the performance list |
 +----------+-------------------------------------------------------------+
+| wins     | The number of wins included in the performance list         |
++----------+-------------------------------------------------------------+
+
+An example of accessing these statistics is given below:
+
+	>>> good_wins = runner.good.wins
 
 
 Horses

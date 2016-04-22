@@ -6,10 +6,10 @@ import pyracing
 
 class PerformanceListTest(unittest.TestCase):
 
-	def test_starts(self):
-		"""The starts property should return the number of performances in the list"""
+	@classmethod
+	def setUpClass(cls):
 
-		performances = [
+		cls.performances = [
 			{
 				'result':				10,
 				'starters':				13,
@@ -210,6 +210,14 @@ class PerformanceListTest(unittest.TestCase):
 			}
 		]
 
-		performance_list = pyracing.PerformanceList(performances)
+		cls.performance_list = pyracing.PerformanceList(cls.performances)
 
-		self.assertEqual(len(performances), performance_list.starts)
+	def test_starts(self):
+		"""The starts property should return the number of performances in the list"""
+
+		self.assertEqual(len(self.performances), self.performance_list.starts)
+
+	def test_wins(self):
+		"""The wins property should return the number of wins in the list"""
+
+		self.assertEqual(len([performance for performance in self.performances if performance['result'] == 1]), self.performance_list.wins)
