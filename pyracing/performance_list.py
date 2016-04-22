@@ -62,6 +62,12 @@ class PerformanceList(list):
 		return self.calculate_percentage(self.thirds)
 
 	@property
+	def total_prize_money(self):
+		"""Return the total prize money earned in this performance list"""
+
+		return sum([performance['runner_prize_money'] for performance in self])
+
+	@property
 	def wins(self):
 		"""Return the number of winning performances included in this performance list"""
 

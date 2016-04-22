@@ -257,6 +257,11 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.check_percentage(self.performance_list.thirds, self.performance_list.third_pct)
 
+	def test_total_prize_money(self):
+		"""The total_prize_money property should return the total prize money earned in the list"""
+
+		self.assertEqual(sum([performance['runner_prize_money'] for performance in self.performances]), self.performance_list.total_prize_money)
+
 	def test_wins(self):
 		"""The wins property should return the number of wins in the list"""
 
