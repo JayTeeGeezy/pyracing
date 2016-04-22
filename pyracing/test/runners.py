@@ -72,6 +72,36 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.assertEqual(4, self.runner.age)
 
+	def test_at_distance(self):
+		"""The at_distance property should return a PerformanceList containing all prior performances within 100m of the current race distance"""
+
+		self.check_performance_list(self.runner.at_distance, 4)
+
+	def test_at_distance_on_track(self):
+		"""The at_distance_on_track property should return a PerformanceList containing all prior performances within 100m of the current race distance on the current track"""
+
+		self.check_performance_list(self.runner.at_distance_on_track, 0)
+
+	def test_career(self):
+		"""The career property should return a PerformanceList containing all of the horse's performances prior to the current race"""
+
+		self.check_performance_list(self.runner.career, 6)
+
+	def test_firm(self):
+		"""The firm property should return a PerformanceList containing all prior performances on FIRM tracks"""
+
+		self.check_performance_list(self.runner.firm, 0)
+
+	def test_good(self):
+		"""The good property should return a PerformanceList containing all prior performances on GOOD tracks"""
+
+		self.check_performance_list(self.runner.good, 4)
+
+	def test_heavy(self):
+		"""The heavy property should return a PerformanceList containing all prior performances on HEAVY tracks"""
+
+		self.check_performance_list(self.runner.heavy, 1)
+
 	def test_horse(self):
 		"""The horse property should return the actual horse running in the race"""
 		
@@ -82,12 +112,53 @@ class RunnerPropertiesTest(EntityTest):
 		
 		self.assertEqual(pyracing.Jockey.get_jockey_by_runner(self.runner), self.runner.jockey)
 
+	def test_on_track(self):
+		"""The on_track property should return a PerformanceList containing all prior performances on the current track"""
+
+		self.check_performance_list(self.runner.on_track, 0)
+
+	def test_on_up(self):
+		"""The on_up property should return a PerformanceList containing all prior performances with the same UP number"""
+
+		self.check_performance_list(self.runner.on_up, 1)
+
 	def test_race(self):
 		"""The race property should return the race in which the runner is competing"""
 
 		self.assertEqual(pyracing.Race.get_race_by_id(self.runner['race_id']), self.runner.race)
 
+	def test_since_rest(self):
+		"""The since_rest property should return a PerformanceList contain all prior performances since the horse's last spell of 90 days or more"""
+
+		self.check_performance_list(self.runner.since_rest, 2)
+
+	def test_soft(self):
+		"""The soft property should return a PerformanceList containing all prior performances on SOFT tracks"""
+
+		self.check_performance_list(self.runner.soft, 1)
+
+	def test_synthetic(self):
+		"""The synthetic property should return a PerformanceList containing all prior performances on SYNTHETIC tracks"""
+
+		self.check_performance_list(self.runner.synthetic, 0)
+
 	def test_trainer(self):
 		"""The trainer property should return the actual trainer riding in the race"""
 		
 		self.assertEqual(pyracing.Trainer.get_trainer_by_runner(self.runner), self.runner.trainer)
+
+	def test_up(self):
+		"""The up property should return the number of races run by the horse (including the current race) since the last rest period of 90 days or more"""
+
+		self.assertEqual(3, self.runner.up)
+
+	def test_with_jockey(self):
+		"""The with_jockey property should return a PerformanceList containing all prior performances with the same jockey"""
+
+		self.check_performance_list(self.runner.with_jockey, 1)
+
+	def check_performance_list(self, performance_list, expected_length):
+		"""Check that the specified performance list has the expected length"""
+
+		self.assertIsInstance(performance_list, pyracing.PerformanceList)
+		self.assertEqual(expected_length, len(performance_list))
