@@ -217,15 +217,30 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.check_result_count(self.performance_list.fourths, 4)
 
+	def test_fourth_pct(self):
+		"""The fourth_pct property should return the number of fourths as a percentage of the number of starts"""
+
+		self.check_percentage(self.performance_list.fourths, self.performance_list.fourth_pct)
+
 	def test_places(self):
 		"""The places property should return the number of placing (1st, 2nd, 3rd) performances in the list"""
 
 		self.assertEqual(len([performance for performance in self.performances if 1 <= performance['result'] <= 3]), self.performance_list.places)
 
+	def test_place_pct(self):
+		"""The place_pct property should return the number of places as a percentage of the number of starts"""
+
+		self.check_percentage(self.performance_list.places, self.performance_list.place_pct)
+
 	def test_seconds(self):
 		"""The seconds property should return the number of second placing performances in the list"""
 
 		self.check_result_count(self.performance_list.seconds, 2)
+
+	def test_second_pct(self):
+		"""The second_pct property should return the number of seconds as a percentage of the number of starts"""
+
+		self.check_percentage(self.performance_list.seconds, self.performance_list.second_pct)
 
 	def test_starts(self):
 		"""The starts property should return the number of performances in the list"""
@@ -237,6 +252,11 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.check_result_count(self.performance_list.thirds, 3)
 
+	def test_third_pct(self):
+		"""The third_pct property should return the number of thirds as a percentage of the number of starts"""
+
+		self.check_percentage(self.performance_list.thirds, self.performance_list.third_pct)
+
 	def test_wins(self):
 		"""The wins property should return the number of wins in the list"""
 
@@ -245,7 +265,12 @@ class PerformanceListTest(unittest.TestCase):
 	def test_win_pct(self):
 		"""The win_pct property should return the number of wins as a percentage of the number of starts"""
 
-		self.assertEqual(self.performance_list.wins / self.performance_list.starts, self.performance_list.win_pct)
+		self.check_percentage(self.performance_list.wins, self.performance_list.win_pct)
+
+	def check_percentage(self, input, output):
+		"""Check that output returns input expressed as a percentage of the number of starts"""
+
+		self.assertEqual(input / self.performance_list.starts, output)
 
 	def check_result_count(self, property, result):
 		"""Check that the specified property returns the count of the performances with the specified result"""
