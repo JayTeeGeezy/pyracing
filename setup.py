@@ -8,7 +8,7 @@ def read_text(filename):
 
 setup(
 	name='pyracing',
-	version='0.1.0',
+	version='0.1.1',
 	description='Python horse racing class library',
 	long_description=read_text('README.rst'),
 	classifiers=[
