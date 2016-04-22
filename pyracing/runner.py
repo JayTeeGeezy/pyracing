@@ -158,6 +158,13 @@ class Runner(Entity):
 		return self.get_performances_by_track_condition('soft')
 
 	@property
+	def spell(self):
+		"""Return the number of days since the horse's previous run"""
+
+		if len(self.career) > 0:
+			return (self.race.meet['date'] - self.career[0]['date']).days
+
+	@property
 	def synthetic(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on synthetic tracks"""
 

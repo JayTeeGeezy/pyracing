@@ -112,13 +112,15 @@ To get the race in which a given runner competes, access the runner's race prope
 
 Runner objects also expose the following calculated values as properties that can be accessed using dot-notation:
 
-+------------+--------------------------------------------------------------------------------------------------------+
-| Property   | Description                                                                                            |
-+============+========================================================================================================+
-| runner.age | The horse's official age as at the date of the race (calculated according to Australia standards)      |
-+------------+--------------------------------------------------------------------------------------------------------+
-| runner.up  | The number of races run by the horse (including the this one) since the last spell of 90 days or more  |
-+------------+--------------------------------------------------------------------------------------------------------+
++---------------+-------------------------------------------------------------------------------------------------------+
+| Property      | Description                                                                                           |
++===============+=======================================================================================================+
+| runner.age    | The horse's official age as at the date of the race (calculated according to Australia standards)     |
++---------------+-------------------------------------------------------------------------------------------------------+
+| runners.spell | The number of days since the horse's previous run (None if this is the horse's first run)             |
++---------------+-------------------------------------------------------------------------------------------------------+
+| runner.up     | The number of races run by the horse (including the this one) since the last spell of 90 days or more |
++---------------+-------------------------------------------------------------------------------------------------------+
 
 The following properties (also accessible using dot-notation) return PerformanceList objects (see below) containing a filtered list of the horse's prior performances:
 

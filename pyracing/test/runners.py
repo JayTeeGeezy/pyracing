@@ -137,6 +137,11 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.check_performance_list(self.runner.soft, 1)
 
+	def test_spell(self):
+		"""The spell property should return the number of days since the horse's previous run"""
+
+		self.assertEqual(11, self.runner.spell)
+
 	def test_synthetic(self):
 		"""The synthetic property should return a PerformanceList containing all prior performances on SYNTHETIC tracks"""
 
