@@ -167,6 +167,8 @@ The PerformanceList objects returned by the properties described above expose th
 +----------+----------------------------------------------------------------------------------------+
 | wins     | The number of winning performances included in the performance list                    |
 +----------+----------------------------------------------------------------------------------------+
+| win_pct  | The number of wins as a percentage of the number of starts (None if no starts)         |
++----------+----------------------------------------------------------------------------------------+
 
 An example of accessing these statistics is given below:
 

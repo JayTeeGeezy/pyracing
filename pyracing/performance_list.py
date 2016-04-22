@@ -43,6 +43,13 @@ class PerformanceList(list):
 
 		return self.count_results(1)
 
+	@property
+	def win_pct(self):
+		"""Return the number of wins as a percentage of the number of starts"""
+
+		if self.starts > 0:
+			return self.wins / self.starts
+
 	def count_results(self, result):
 		"""Return the number of performances in this list with the specified result"""
 

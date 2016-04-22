@@ -242,6 +242,11 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.check_result_count(self.performance_list.wins, 1)
 
+	def test_win_pct(self):
+		"""The win_pct property should return the number of wins as a percentage of the number of starts"""
+
+		self.assertEqual(self.performance_list.wins / self.performance_list.starts, self.performance_list.win_pct)
+
 	def check_result_count(self, property, result):
 		"""Check that the specified property returns the count of the performances with the specified result"""
 
