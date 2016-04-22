@@ -212,6 +212,11 @@ class PerformanceListTest(unittest.TestCase):
 
 		cls.performance_list = pyracing.PerformanceList(cls.performances)
 
+	def test_average_prize_money(self):
+		"""The average_prize_money property should return the average prize money per start in the list"""
+
+		self.assertEqual(self.performance_list.total_prize_money / self.performance_list.starts, self.performance_list.average_prize_money)
+
 	def test_fourths(self):
 		"""The fourths property should return the number of fourth placing performances in the list"""
 

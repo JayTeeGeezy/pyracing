@@ -7,6 +7,14 @@ class PerformanceList(list):
 
 		self.sort(key=lambda performance: performance['date'], reverse=True)
 
+		self.calculate_average = self.calculate_percentage
+
+	@property
+	def average_prize_money(self):
+		"""Return the average prize money per start in this performance list"""
+
+		return self.calculate_average(self.total_prize_money)
+
 	@property
 	def fourths(self):
 		"""Return the number of fourth placing performances included in this performance list"""
