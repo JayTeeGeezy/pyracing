@@ -14,6 +14,12 @@ class PerformanceList(list):
 		return self.count_results(4)
 
 	@property
+	def places(self):
+		"""Return the number of placing (1st, 2nd and 3rd) performances included in this performance list"""
+
+		return self.wins + self.seconds + self.thirds
+
+	@property
 	def seconds(self):
 		"""Return the number of second placing performances included in this performance list"""
 

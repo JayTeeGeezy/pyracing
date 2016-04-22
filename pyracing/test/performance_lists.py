@@ -217,6 +217,11 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.check_result_count(self.performance_list.fourths, 4)
 
+	def test_places(self):
+		"""The places property should return the number of placing (1st, 2nd, 3rd) performances in the list"""
+
+		self.assertEqual(len([performance for performance in self.performances if 1 <= performance['result'] <= 3]), self.performance_list.places)
+
 	def test_seconds(self):
 		"""The seconds property should return the number of second placing performances in the list"""
 
