@@ -47,6 +47,12 @@ class ThreadedQueue(queue.Queue):
 				finally:
 					self.task_done()
 
+	def put(self, item):
+		"""Add item to the queue if the queue is running"""
+
+		if self.is_running:
+			super().put(item)
+
 	def stop(self, exception=None):
 		"""Stop all threads"""
 
@@ -55,6 +61,18 @@ class ThreadedQueue(queue.Queue):
 
 		if exception is not None and self.exception is None:
 			self.exception = exception
+		
+		self.clear()
+
+	def clear(self):
+		"""Remove all pending items from the queue without processing them"""
+
+		while not self.empty():
+			try:
+				self.get_nowait()
+				self.task_done()
+			except queue.Empty:
+				pass
 
 
 class WorkerQueue(ThreadedQueue):
