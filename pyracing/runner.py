@@ -152,6 +152,22 @@ class Runner(Entity):
 		return Trainer.get_trainer_by_runner(self)
 
 	@property
+	def up(self):
+		"""Return the number of races run by the horse (including this one) since the last rest period of 90 days or more"""
+
+		up = 1
+
+		next_date = self.race.meet['date']
+		for index in range(len(self.career)):
+			if (next_date - self.career[index]['date']) < self.REST_PERIOD:
+				up += 1
+				next_date = self.career[index]['date']
+			else:
+				break
+
+		return up
+
+	@property
 	def with_jockey(self):
 		"""Return a PerformanceList containing all of the horse's prior performances with the same jockey"""
 

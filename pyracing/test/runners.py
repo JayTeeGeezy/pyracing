@@ -142,6 +142,11 @@ class RunnerPropertiesTest(EntityTest):
 		
 		self.assertEqual(pyracing.Trainer.get_trainer_by_runner(self.runner), self.runner.trainer)
 
+	def test_up(self):
+		"""The up property should return the number of races run by the horse (including the current race) since the last rest period of 90 days or more"""
+
+		self.assertEqual(3, self.runner.up)
+
 	def test_with_jockey(self):
 		"""The with_jockey property should return a PerformanceList containing all prior performances with the same jockey"""
 

@@ -112,11 +112,13 @@ To get the race in which a given runner competes, access the runner's race prope
 
 Runner objects also expose the following calculated values as properties that can be accessed using dot-notation:
 
-+------------+---------------------------------------------------------------------------------------------------+
-| Property   | Description                                                                                       |
-+============+===================================================================================================+
-| runner.age | The horse's official age as at the date of the race (calculated according to Australia standards) |
-+------------+---------------------------------------------------------------------------------------------------+
++------------+--------------------------------------------------------------------------------------------------------+
+| Property   | Description                                                                                            |
++============+========================================================================================================+
+| runner.age | The horse's official age as at the date of the race (calculated according to Australia standards)      |
++------------+--------------------------------------------------------------------------------------------------------+
+| runner.up  | The number of races run by the horse (including the this one) since the last spell of 90 days or more  |
++------------+--------------------------------------------------------------------------------------------------------+
 
 The following properties (also accessible using dot-notation) return PerformanceList objects containing a filtered list of the horse's prior performances:
 
@@ -137,7 +139,7 @@ The following properties (also accessible using dot-notation) return Performance
 +-----------------------------+----------------------------------------------------------------------------------------+
 | runner.on_track             | All prior performances on the current track                                            |
 +-----------------------------+----------------------------------------------------------------------------------------+
-| runner.since_rest           | All performances since the horse's last rest of 90 days or more                        |
+| runner.since_rest           | All performances since the horse's last spell of 90 days or more                       |
 +-----------------------------+----------------------------------------------------------------------------------------+
 | runner.soft                 | All prior performances on SOFT tracks                                                  |
 +-----------------------------+----------------------------------------------------------------------------------------+
