@@ -117,6 +117,11 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.check_performance_list(self.runner.on_track, 0)
 
+	def test_on_up(self):
+		"""The on_up property should return a PerformanceList containing all prior performances with the same UP number"""
+
+		self.check_performance_list(self.runner.on_up, 1)
+
 	def test_race(self):
 		"""The race property should return the race in which the runner is competing"""
 

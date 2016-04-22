@@ -139,6 +139,8 @@ The following properties (also accessible using dot-notation) return Performance
 +-----------------------------+----------------------------------------------------------------------------------------+
 | runner.on_track             | All prior performances on the current track                                            |
 +-----------------------------+----------------------------------------------------------------------------------------+
+| runner.on_up                | All prior performances with the same UP number as the horse's current run              |
++-----------------------------+----------------------------------------------------------------------------------------+
 | runner.since_rest           | All performances since the horse's last spell of 90 days or more                       |
 +-----------------------------+----------------------------------------------------------------------------------------+
 | runner.soft                 | All prior performances on SOFT tracks                                                  |

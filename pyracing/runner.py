@@ -113,6 +113,24 @@ class Runner(Entity):
 		return PerformanceList([performance for performance in self.career if performance['track'] == self.race.meet['track']])
 
 	@property
+	def on_up(self):
+		"""Return a PerformanceList containing all of the horse's prior performances with the same UP number"""
+
+		performances = []
+		previous_date = None
+		up = 0
+		for index in range(len(self.career) - 1, 0, -1):
+			if previous_date is None or ((self.career[index]['date'] - previous_date) < self.REST_PERIOD):
+				up += 1
+			else:
+				up = 1
+			if up == self.up:
+				performances.append(self.career[index])
+			previous_date = self.career[index]['date']
+
+		return PerformanceList(performances)
+
+	@property
 	def race(self):
 		"""Return the race in which this runner competes"""
 
