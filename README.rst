@@ -372,5 +372,8 @@ Alternatively, individual components of pyracing can be tested by executing any 
 Version History
 ---------------
 
+0.1.1 (22 April 2016)
+	Fix issue with caught exceptions hanging Iterator
+
 0.1.0 (21 April 2016)
 	Interim release to facilitate database pre-population
