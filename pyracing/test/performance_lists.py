@@ -217,6 +217,11 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.assertEqual(self.performance_list.total_prize_money / self.performance_list.starts, self.performance_list.average_prize_money)
 
+	def test_average_starting_price(self):
+		"""The average_starting_price property should return the average starting price per start in the list"""
+
+		self.assertEqual(sum([performance['starting_price'] for performance in self.performances]) / len(self.performances), self.performance_list.average_starting_price)
+
 	def test_fourths(self):
 		"""The fourths property should return the number of fourth placing performances in the list"""
 

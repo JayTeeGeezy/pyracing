@@ -16,6 +16,12 @@ class PerformanceList(list):
 		return self.calculate_average(self.total_prize_money)
 
 	@property
+	def average_starting_price(self):
+		"""Return the average starting price per start in this performance list"""
+
+		return self.calculate_average(sum([performance['starting_price'] for performance in self]))
+
+	@property
 	def fourths(self):
 		"""Return the number of fourth placing performances included in this performance list"""
 
