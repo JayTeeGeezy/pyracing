@@ -152,13 +152,19 @@ The following properties (also accessible using dot-notation) return Performance
 
 The PerformanceList objects returned by the properties described above expose the following properties:
 
-+----------+-------------------------------------------------------------+
-| Property | Description                                                 |
-+==========+=============================================================+
-| starts   | The total number of starts included in the performance list |
-+----------+-------------------------------------------------------------+
-| wins     | The number of wins included in the performance list         |
-+----------+-------------------------------------------------------------+
++----------+----------------------------------------------------------------------------+
+| Property | Description                                                                |
++==========+============================================================================+
+| fourths  | The number of fourth placing performances included in the performance list |
++----------+----------------------------------------------------------------------------+
+| seconds  | The number of second placing performances included in the performance list |
++----------+----------------------------------------------------------------------------+
+| starts   | The total number of starts included in the performance list                |
++----------+----------------------------------------------------------------------------+
+| thirds   | The number of third placing performances included in the performance list  |
++----------+----------------------------------------------------------------------------+
+| wins     | The number of winning performances included in the performance list        |
++----------+----------------------------------------------------------------------------+
 
 An example of accessing these statistics is given below:
 

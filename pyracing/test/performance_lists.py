@@ -212,12 +212,32 @@ class PerformanceListTest(unittest.TestCase):
 
 		cls.performance_list = pyracing.PerformanceList(cls.performances)
 
+	def test_fourths(self):
+		"""The fourths property should return the number of fourth placing performances in the list"""
+
+		self.check_result_count(self.performance_list.fourths, 4)
+
+	def test_seconds(self):
+		"""The seconds property should return the number of second placing performances in the list"""
+
+		self.check_result_count(self.performance_list.seconds, 2)
+
 	def test_starts(self):
 		"""The starts property should return the number of performances in the list"""
 
 		self.assertEqual(len(self.performances), self.performance_list.starts)
 
+	def test_thirds(self):
+		"""The thirds property should return the number of third placing performances in the list"""
+
+		self.check_result_count(self.performance_list.thirds, 3)
+
 	def test_wins(self):
 		"""The wins property should return the number of wins in the list"""
 
-		self.assertEqual(len([performance for performance in self.performances if performance['result'] == 1]), self.performance_list.wins)
+		self.check_result_count(self.performance_list.wins, 1)
+
+	def check_result_count(self, property, result):
+		"""Check that the specified property returns the count of the performances with the specified result"""
+
+		self.assertEqual(len([performance for performance in self.performances if performance['result'] == result]), property)
