@@ -46,6 +46,12 @@ class PerformanceList(list):
 		return self.calculate_percentage(self.places)
 
 	@property
+	def roi(self):
+		"""Return the total starting price for winning performances less the total number of performances in the list, expressed as a percentage of the number of starts"""
+
+		return self.calculate_percentage(sum([performance['starting_price'] for performance in self if performance['result'] == 1]) - self.starts)
+
+	@property
 	def seconds(self):
 		"""Return the number of second placing performances included in this performance list"""
 

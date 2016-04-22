@@ -242,6 +242,11 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.check_percentage(self.performance_list.places, self.performance_list.place_pct)
 
+	def test_roi(self):
+		"""The roi property should return the total winning starting prices less the number of starts in the list, as a percentage of the number of starts"""
+
+		self.assertEqual((sum([performance['starting_price'] for performance in self.performances if performance['result'] == 1]) - len(self.performances)) / len(self.performances), self.performance_list.roi)
+
 	def test_seconds(self):
 		"""The seconds property should return the number of second placing performances in the list"""
 
