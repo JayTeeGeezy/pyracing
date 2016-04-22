@@ -1,9 +1,13 @@
+from datetime import timedelta
+
 from .common import Entity
 from .performance_list import PerformanceList
 
 
 class Runner(Entity):
 	"""A runner represents a combination of horse, jockey and trainer competing in a given race"""
+
+	REST_PERIOD = timedelta(days=90)
 
 	@classmethod
 	def get_runner_by_id(cls, id):
@@ -113,6 +117,21 @@ class Runner(Entity):
 		"""Return the race in which this runner competes"""
 
 		return Race.get_race_by_id(self['race_id'])
+
+	@property
+	def since_rest(self):
+		"""Return a PerformanceList containing the horse's prior performances since the last spell of 90 days or more"""
+
+		performances = []
+		next_date = self.race.meet['date']
+		for index in range(len(self.career)):
+			if (next_date - self.career[index]['date']) < self.REST_PERIOD:
+				performances.append(self.career[index])
+				next_date = self.career[index]['date']
+			else:
+				break
+
+		return PerformanceList(performances)
 
 	@property
 	def soft(self):
