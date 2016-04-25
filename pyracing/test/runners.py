@@ -156,6 +156,11 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.assertEqual(pyracing.Race.get_race_by_id(self.runner['race_id']), self.runner.race)
 
+	def test_result(self):
+		"""The result property should return the final result for the runner if available"""
+
+		self.assertEqual(self.runner.current_performance['result'], self.runner.result)
+
 	def test_since_rest(self):
 		"""The since_rest property should return a PerformanceList contain all prior performances since the horse's last spell of 90 days or more"""
 

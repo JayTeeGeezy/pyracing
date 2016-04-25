@@ -157,6 +157,16 @@ class Runner(Entity):
 		return Race.get_race_by_id(self['race_id'])
 
 	@property
+	def result(self):
+		"""Return the final result for this runner if available"""
+
+		if self.current_performance is not None:
+			if self.current_performance['result'] is not None:
+				return self.current_performance['result']
+			else:
+				return self.current_performance['starters']
+
+	@property
 	def since_rest(self):
 		"""Return a PerformanceList containing the horse's prior performances since the last spell of 90 days or more"""
 
