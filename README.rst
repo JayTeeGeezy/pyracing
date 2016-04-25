@@ -305,51 +305,51 @@ Batch Processing
 
 The pyracing package includes a Processor class to facilitate the batch processing of ALL racing data for a specified date range.
 
-To implement batch processing, create an instance of the Processor class and call its process_dates method as follows:
+To implement batch processing, extend the Processor class with your own custom sub-class and call its process_dates method as follows:
 
-	>>> processor = pyracing.Processor(threads=1, message_prefix='processing', {keyword arguments})
-	>>> processor.process_dates(date_from, date_to)
+	>>> custom_processor = CustomProcessor(threads=1, message_prefix='processing')
+	>>> custom_processor.process_dates(date_from, date_to)
 
 Alternatively, to process ALL racing data for a single date instead, call the process_date method as follows:
 
-	>>> processor.process_date(date)
+	>>> custom_processor.process_date(date)
 
 The threads and message_prefix arguments to the Processor constructor are both optional.
 
-The threads argument specifies the number of threads to use for processing entities (all threads will be joined after processing a single date's data, just prior to executing the date_post_processor method if specified - see below). The default value for threads is 1.
+The threads argument specifies the number of threads to use for processing entities (all threads will be joined after processing a single date's data, just prior to executing the post_process_date method if specified - see below). The default value for threads is 1.
 
 The message_prefix argument specifies a text string to be prepended to a description of each entity being processed in the messages logged by the processor. The default value for message_prefix is 'processing'.
 
-Any combination of the following keyword arguments may also be passed to the Processor constructor, with each specifying a callable that will be called at a specific time during the processing of entities:
+Any combination of the following instance methods may be defined in a custom Processor class, with each being called at a specific time during the processing of entities:
 
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| Keyword               | Calls                              | When                                                                             |
+| Method                | Calls                              | When                                                                             |
 +=======================+====================================+==================================================================================+
-| date_pre_processor    | date_pre_processor(date)           | BEFORE meets occurring on date are processed                                     |
+| pre_process_date      | pre_process_date(date)             | BEFORE meets occurring on date are processed                                     |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| date_post_processor   | date_post_processor(date)          | AFTER meets occurring on date have been processed (and threads have been joined) |
+| post_process_date     | post_process_date(date)            | AFTER meets occurring on date have been processed (and threads have been joined) |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| meet_pre_processor    | meet_pre_processor(meet)           | BEFORE races occurring at meet are processed                                     |
+| pre_process_meet      | pre_process_meet(meet)             | BEFORE races occurring at meet are processed                                     |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| meet_post_processor   | meet_post_processor(mmet)          | AFTER races occurring at meet have been processed                                |
+| post_process_meet     | post_process_meet(meet)            | AFTER races occurring at meet have been processed                                |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| race_pre_processor    | race_pre_processor(race)           | BEFORE runners competing in race are processed                                   |
+| pre_process_race      | pre_process_race(race)             | BEFORE runners competing in race are processed                                   |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| race_post_processor   | race_post_processor(race)          | AFTER runners competing in race have been processed                              |
+| post_process_race     | post_process_race(race)            | AFTER runners competing in race have been processed                              |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| runner_pre_processor  | runner_pre_processor(runner)       | BEFORE the runner's horse, jockey and trainer are processed                      |
+| pre_process_runner    | pre_process_runner(runner)         | BEFORE the runner's horse, jockey and trainer are processed                      |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| runner_post_processor | runner_post_processor(runner)      | AFTER the runner's horse, jockey and trainer have been processed                 |
+| post_process_runner   | post_process_runner(runner)        | AFTER the runner's horse, jockey and trainer have been processed                 |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| horse_pre_processor   | horse_pre_processor(horse)         | BEFORE the horse's performances are processed                                    |
+| pre_process_horse     | pre_process_horse(horse)           | BEFORE the horse's performances are processed                                    |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| horse_post_processor  | horse_post_processor(horse)        | AFTER the horse's performances have been processed                               |
+| post_process_horse    | post_process_horse(horse)          | AFTER the horse's performances have been processed                               |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| jockey_processor      | jockey_processor(jockey)           | ONCE for each run by a jockey                                                    |
+| process_jockey        | process_jockey(jockey)             | ONCE for each run by a jockey                                                    |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| trainer_processor     | trainer_processor(trainer)         | ONCE for each run by a trainer                                                   |
+| process_trainer       | process_trainer(trainer)           | ONCE for each run by a trainer                                                   |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| performance_processor | performance_processor(performance) | ONCE for each performance by a horse                                             |
+| process_performance   | process_performance(performance)   | ONCE for each performance by a horse                                             |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
 
 
