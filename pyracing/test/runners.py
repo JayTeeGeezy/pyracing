@@ -67,6 +67,11 @@ class RunnerPropertiesTest(EntityTest):
 						break
 				break
 
+	def test_actual_weight(self):
+		"""The actual_weight property should return the weight of the horse plus the weight carried"""
+
+		self.assertEqual(self.runner.carrying + pyracing.Horse.AVERAGE_WEIGHT, self.runner.actual_weight)
+
 	def test_age(self):
 		"""The age property should return the official age of the horse as at the time of the race"""
 
@@ -82,10 +87,26 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.check_performance_list(self.runner.at_distance_on_track, 0)
 
+	def test_calculate_expected_speed(self):
+		"""The calculate_expected_speed method should return a tuple containing minimum, maximum and average expected speeds for the runner based on the specified performance list"""
+
+		expected_result = (
+			self.runner.career.minimum_momentum / self.runner.actual_weight,
+			self.runner.career.maximum_momentum / self.runner.actual_weight,
+			self.runner.career.average_momentum / self.runner.actual_weight
+			)
+
+		self.assertEqual(expected_result, self.runner.calculate_expected_speed('career'))
+
 	def test_career(self):
 		"""The career property should return a PerformanceList containing all of the horse's performances prior to the current race"""
 
 		self.check_performance_list(self.runner.career, 6)
+
+	def test_carrying(self):
+		"""The carrying property should return the listed weight less allowances for the runner"""
+
+		self.assertEqual(self.runner['weight'] - self.runner['jockey_claiming'], self.runner.carrying)
 
 	def test_firm(self):
 		"""The firm property should return a PerformanceList containing all prior performances on FIRM tracks"""

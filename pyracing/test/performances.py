@@ -56,10 +56,15 @@ class PerformancePropertiesTest(EntityTest):
 
 		self.assertEqual(self.performance['distance'] - (self.performance['lengths'] * self.performance.METRES_PER_LENGTH), self.performance.actual_distance)
 
+	def test_actual_weight(self):
+		"""The actual_weight property should return the weight carried by the horse plus the average weight of a racehorse"""
+
+		self.assertEqual(self.performance['carried'] + pyracing.Horse.AVERAGE_WEIGHT, self.performance.actual_weight)
+
 	def test_momentum(self):
 		"""The momentum property should return the average momentum achieved by the horse in this performance"""
 
-		self.assertEqual(self.performance['carried'] * self.performance.speed, self.performance.momentum)
+		self.assertEqual(self.performance.actual_weight * self.performance.speed, self.performance.momentum)
 
 	def test_speed(self):
 		"""The speed property should return the average speed achieved by the horse in this performance"""

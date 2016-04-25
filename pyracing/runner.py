@@ -51,6 +51,12 @@ class Runner(Entity):
 		return 'runner {number} in {race}'.format(number=self['number'], race=self.race)
 
 	@property
+	def actual_weight(self):
+		"""Return the weight carried by the runner plus the average weight of a racehorse"""
+
+		return self.carrying + Horse.AVERAGE_WEIGHT
+
+	@property
 	def age(self):
 		"""Return the horse's official age as at the time of the race"""
 
@@ -75,6 +81,12 @@ class Runner(Entity):
 		"""Return a PerformanceList containing all of the horse's performances prior to the current race"""
 
 		return PerformanceList([performance for performance in self.horse.performances if performance['date'] < self.race.meet['date']])
+
+	@property
+	def carrying(self):
+		"""Return the official listed weight less allowances for the runner"""
+
+		return self['weight'] - self['jockey_claiming']
 
 	@property
 	def firm(self):
@@ -197,6 +209,17 @@ class Runner(Entity):
 		"""Return a PerformanceList containing all of the horse's prior performances with the same jockey"""
 
 		return PerformanceList([performance for performance in self.career if performance['jockey_url'] == self['jockey_url']])
+
+	def calculate_expected_speed(self, performance_list):
+		"""Return a tuple containing expected speeds based on the minimum, maximum and average momentums for the specified performance list"""
+
+		performance_list = getattr(self, performance_list)
+		if performance_list is not None:
+			return (
+				performance_list.minimum_momentum / self.actual_weight,
+				performance_list.maximum_momentum / self.actual_weight,
+				performance_list.average_momentum / self.actual_weight
+				)
 
 	def get_performances_by_track_condition(self, track_condition):
 		"""Return a PerformanceList containing all prior performances on the specified track condition"""

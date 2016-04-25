@@ -40,6 +40,18 @@ class PerformanceList(list):
 		return self.calculate_percentage(self.fourths)
 
 	@property
+	def maximum_momentum(self):
+		"""Return the maximum momentum achieved for any performance in this list"""
+
+		return max([performance.momentum for performance in self])
+
+	@property
+	def minimum_momentum(self):
+		"""Return the minimum momentum achieved for any performance in this list"""
+
+		return min([performance.momentum for performance in self])
+
+	@property
 	def places(self):
 		"""Return the number of placing (1st, 2nd and 3rd) performances included in this performance list"""
 

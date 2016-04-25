@@ -238,6 +238,16 @@ class PerformanceListTest(unittest.TestCase):
 
 		self.check_percentage(self.performance_list.fourths, self.performance_list.fourth_pct)
 
+	def test_maximum_momentum(self):
+		"""The maximum_momentum property should return the maximum momentum for any performance in the list"""
+
+		self.assertEqual(max([performance.momentum for performance in self.performance_list]), self.performance_list.maximum_momentum)
+
+	def test_minimum_momentum(self):
+		"""The minimum_momentum property should return the minimum momentum for any performance in the list"""
+
+		self.assertEqual(min([performance.momentum for performance in self.performance_list]), self.performance_list.minimum_momentum)
+
 	def test_places(self):
 		"""The places property should return the number of placing (1st, 2nd, 3rd) performances in the list"""
 
