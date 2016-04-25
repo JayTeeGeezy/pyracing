@@ -157,6 +157,8 @@ The PerformanceList objects returned by the properties described above expose th
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | Property               | Description                                                                                                             |
 +========================+=========================================================================================================================+
+| average_momentum       | The average momentum per start in the performance list (None if no starts)                                    |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | average_prize_money    | The average prize money earned per start in the performance list (None if no starts)                                    |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | average_starting_price | The average starting price per start in the performance list (None if no starts)                                        |

@@ -209,8 +209,14 @@ class PerformanceListTest(unittest.TestCase):
 				'lengths':				4.50
 			}
 		]
+		cls.performances = [pyracing.Performance(performance) for performance in cls.performances]
 
 		cls.performance_list = pyracing.PerformanceList(cls.performances)
+
+	def test_average_momentum(self):
+		"""The average_momentum property should return the average momentum per start in the list"""
+
+		self.assertEqual(sum([performance.momentum for performance in self.performance_list]) / self.performance_list.starts, self.performance_list.average_momentum)
 
 	def test_average_prize_money(self):
 		"""The average_prize_money property should return the average prize money per start in the list"""
