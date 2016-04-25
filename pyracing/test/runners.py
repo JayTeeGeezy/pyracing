@@ -108,6 +108,14 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.assertEqual(self.runner['weight'] - self.runner['jockey_claiming'], self.runner.carrying)
 
+	def test_current_performance(self):
+		"""The test_current_performance property should return the horse's performance for the current race"""
+
+		current_performance = self.runner.current_performance
+
+		self.assertEqual(self.runner.race.meet['track'], current_performance['track'])
+		self.assertEqual(self.runner.race.meet['date'], current_performance['date'])
+
 	def test_firm(self):
 		"""The firm property should return a PerformanceList containing all prior performances on FIRM tracks"""
 

@@ -121,6 +121,8 @@ Runner objects also expose the following calculated values as properties that ca
 +---------------+-------------------------------------------------------------------------------------------------------+
 | runner.carrying | The official listed weight for the runner less allowances (in kg) |
 +---------------+-------------------------------------------------------------------------------------------------------+
+| runner.current_performance | The horse's performance for the current race if available (None if not) |
++---------------+-------------------------------------------------------------------------------------------------------+
 | runners.spell | The number of days since the horse's previous run (None if this is the horse's first run)             |
 +---------------+-------------------------------------------------------------------------------------------------------+
 | runner.up     | The number of races run by the horse (including the this one) since the last spell of 90 days or more |

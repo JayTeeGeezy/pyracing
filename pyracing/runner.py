@@ -89,6 +89,14 @@ class Runner(Entity):
 		return self['weight'] - self['jockey_claiming']
 
 	@property
+	def current_performance(self):
+		"""Return the horse's performance for the current race if available"""
+
+		for performance in self.horse.performances:
+			if performance['track'] == self.race.meet['track'] and performance['date'] == self.race.meet['date']:
+				return performance
+
+	@property
 	def firm(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on firm tracks"""
 
