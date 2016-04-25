@@ -6,6 +6,8 @@ from .common import Entity
 class Performance(Entity):
 	"""A performance represents a the result of a past run for a horse and jockey"""
 
+	METRES_PER_LENGTH = 2.4
+
 	@classmethod
 	def get_performance_by_id(cls, id):
 		"""Get the single performance with the specified database ID"""
@@ -40,6 +42,12 @@ class Performance(Entity):
 		return 'performance for {horse} at {track} on {date}'.format(horse=self.horse, track=self['track'], date=self['date'].strftime(locale.nl_langinfo(locale.D_FMT)))
 
 	@property
+	def actual_distance(self):
+		"""Return the actual distance run by the horse in the winning time"""
+
+		return self['distance'] - (self['lengths'] * self.METRES_PER_LENGTH)
+
+	@property
 	def horse(self):
 		"""Return the actual horse involved in this performance"""
 
@@ -50,6 +58,18 @@ class Performance(Entity):
 		"""Return the actual jockey involved in this performance"""
 
 		return Jockey.get_jockey_by_performance(self)
+
+	@property
+	def momentum(self):
+		"""Return the average momentum achieved by the horse during this performance"""
+
+		return self['carried'] * self.speed
+
+	@property
+	def speed(self):
+		"""Return the average speed run by the horse during this performance"""
+
+		return self.actual_distance / self['winning_time']
 
 
 from .horse import Horse
