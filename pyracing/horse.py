@@ -4,6 +4,8 @@ from .common import Entity
 class Horse(Entity):
 	"""A horse represents the equine component of a runner"""
 
+	AVERAGE_WEIGHT = 453.592
+
 	@classmethod
 	def get_horse_by_id(cls, id):
 		"""Get the single horse with the specified database ID"""

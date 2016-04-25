@@ -48,6 +48,12 @@ class Performance(Entity):
 		return self['distance'] - (self['lengths'] * self.METRES_PER_LENGTH)
 
 	@property
+	def actual_weight(self):
+		"""Return the weight carried by the horse plus the average weight of a racehorse"""
+
+		return self['carried'] + Horse.AVERAGE_WEIGHT
+
+	@property
 	def horse(self):
 		"""Return the actual horse involved in this performance"""
 
@@ -63,7 +69,7 @@ class Performance(Entity):
 	def momentum(self):
 		"""Return the average momentum achieved by the horse during this performance"""
 
-		return self['carried'] * self.speed
+		return self.actual_weight * self.speed
 
 	@property
 	def speed(self):

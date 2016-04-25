@@ -115,7 +115,11 @@ Runner objects also expose the following calculated values as properties that ca
 +---------------+-------------------------------------------------------------------------------------------------------+
 | Property      | Description                                                                                           |
 +===============+=======================================================================================================+
+| runner.actual_weight | The weight carried by the runner plus the average weight of a racehorse (in kg) |
++---------------+-------------------------------------------------------------------------------------------------------+
 | runner.age    | The horse's official age as at the date of the race (calculated according to Australia standards)     |
++---------------+-------------------------------------------------------------------------------------------------------+
+| runner.carrying | The official listed weight for the runner less allowances (in kg) |
 +---------------+-------------------------------------------------------------------------------------------------------+
 | runners.spell | The number of days since the horse's previous run (None if this is the horse's first run)             |
 +---------------+-------------------------------------------------------------------------------------------------------+
@@ -268,15 +272,17 @@ The get_performances_by_horse method will return a list of Performance objects. 
 
 Performance objects also expose the following calculated values as properties that can be accessed using dot-notation:
 
-+-----------------------------+----------------------------------------------------------------------+
-| Property                    | Description                                                          |
-+=============================+======================================================================+
-| performance.actual_distance | The actual distance run by the horse in the winning time (in metres) |
-+-----------------------------+----------------------------------------------------------------------+
-| performance.momentum        | The average momentum achieved by the horse (in kg m/s)               |
-+-----------------------------+----------------------------------------------------------------------+
-| performance.speed           | The average speed run by the horse (in m/s)                          |
-+-----------------------------+----------------------------------------------------------------------+
++-----------------------------+--------------------------------------------------------------------------------+
+| Property                    | Description                                                                    |
++=============================+================================================================================+
+| performance.actual_distance | The actual distance run by the horse in the winning time (in metres)           |
++-----------------------------+--------------------------------------------------------------------------------+
+| performance.actual_weight   | The weight carried by the horse plus the average weight of a racehorse (in kg) |
++-----------------------------+--------------------------------------------------------------------------------+
+| performance.momentum        | The average momentum achieved by the horse (in kg m/s)                         |
++-----------------------------+--------------------------------------------------------------------------------+
+| performance.speed           | The average speed run by the horse (in m/s)                                    |
++-----------------------------+--------------------------------------------------------------------------------+
 
 
 Batch Processing
