@@ -10,6 +10,12 @@ class PerformanceList(list):
 		self.calculate_average = self.calculate_percentage
 
 	@property
+	def average_momentum(self):
+		"""Return the average momentum per start in this performance list"""
+
+		return self.calculate_average(sum([performance.momentum for performance in self]))
+
+	@property
 	def average_prize_money(self):
 		"""Return the average prize money per start in this performance list"""
 

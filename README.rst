@@ -157,6 +157,8 @@ The PerformanceList objects returned by the properties described above expose th
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | Property               | Description                                                                                                             |
 +========================+=========================================================================================================================+
+| average_momentum       | The average momentum per start in the performance list (None if no starts)                                    |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | average_prize_money    | The average prize money earned per start in the performance list (None if no starts)                                    |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | average_starting_price | The average starting price per start in the performance list (None if no starts)                                        |
@@ -263,6 +265,18 @@ Alternatively, a list of performances for a given horse can be obtained by acces
 The get_performances_by_horse method will return a list of Performance objects. The Performance class itself is derived from Python's built-in dict type, so a performance's details can be accessed as follows:
 
 	>>> result = performances[index]['result']
+
+Performance objects also expose the following calculated values as properties that can be accessed using dot-notation:
+
++-----------------------------+----------------------------------------------------------------------+
+| Property                    | Description                                                          |
++=============================+======================================================================+
+| performance.actual_distance | The actual distance run by the horse in the winning time (in metres) |
++-----------------------------+----------------------------------------------------------------------+
+| performance.momentum        | The average momentum achieved by the horse (in kg m/s)               |
++-----------------------------+----------------------------------------------------------------------+
+| performance.speed           | The average speed run by the horse (in m/s)                          |
++-----------------------------+----------------------------------------------------------------------+
 
 
 Batch Processing
