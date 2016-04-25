@@ -195,6 +195,13 @@ class Runner(Entity):
 			return (self.race.meet['date'] - self.career[0]['date']).days
 
 	@property
+	def starting_price(self):
+		"""Return the starting price for this runner if available"""
+
+		if self.current_performance is not None:
+			return self.current_performance['starting_price']
+
+	@property
 	def synthetic(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on synthetic tracks"""
 

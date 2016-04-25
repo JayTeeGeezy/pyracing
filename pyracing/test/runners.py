@@ -176,6 +176,11 @@ class RunnerPropertiesTest(EntityTest):
 
 		self.assertEqual(11, self.runner.spell)
 
+	def test_starting_price(self):
+		"""The starting_price property should return the runner's starting price if available"""
+
+		self.assertEqual(self.runner.current_performance['starting_price'], self.runner.starting_price)
+
 	def test_synthetic(self):
 		"""The synthetic property should return a PerformanceList containing all prior performances on SYNTHETIC tracks"""
 
