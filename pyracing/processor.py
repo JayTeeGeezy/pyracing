@@ -7,7 +7,7 @@ from .profiling import log_time
 from .threaded_queues import WorkerQueue
 
 
-class Iterator:
+class Processor:
 
 	def __init__(self, threads=1, message_prefix=None, *args, **kwargs):
 		"""Initialize instance dependencies"""

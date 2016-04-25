@@ -1,7 +1,7 @@
 from .common import *
 
 
-class IteratorTest(unittest.TestCase):
+class ProcessorTest(unittest.TestCase):
 
 	def test_all_data(self):
 		"""The iterate method should process all data for the given date range"""
@@ -27,7 +27,7 @@ class IteratorTest(unittest.TestCase):
 				processed_items[item.__class__.__name__] = []
 			processed_items[item.__class__.__name__].append(item)
 
-		iterator = pyracing.Iterator(
+		processor = pyracing.Processor(
 			threads=4,
 			date_pre_processor=pre_process_item,
 			date_post_processor=post_process_item,
@@ -43,7 +43,7 @@ class IteratorTest(unittest.TestCase):
 			trainer_processor=process_item,
 			performance_processor=process_item
 			)
-		iterator.process_dates(date_from, date_to)
+		processor.process_dates(date_from, date_to)
 
 		for cls in (datetime, pyracing.Meet, pyracing.Race, pyracing.Runner, pyracing.Horse):
 			for collection in (pre_processed_items, post_processed_items):

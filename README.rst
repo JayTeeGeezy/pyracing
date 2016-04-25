@@ -303,24 +303,24 @@ Performance objects also expose the following calculated values as properties th
 Batch Processing
 ~~~~~~~~~~~~~~~~
 
-The pyracing package includes an Iterator class to facilitate the batch processing of ALL racing data for a specified date range.
+The pyracing package includes a Processor class to facilitate the batch processing of ALL racing data for a specified date range.
 
-To implement batch processing, create an instance of the Iterator class and call its process_dates method as follows:
+To implement batch processing, create an instance of the Processor class and call its process_dates method as follows:
 
-	>>> iterator = pyracing.Iterator(threads=1, message_prefix='processing', {keyword arguments})
-	>>> iterator.process_dates(date_from, date_to)
+	>>> processor = pyracing.Processor(threads=1, message_prefix='processing', {keyword arguments})
+	>>> processor.process_dates(date_from, date_to)
 
 Alternatively, to process ALL racing data for a single date instead, call the process_date method as follows:
 
-	>>> iterator.process_date(date)
+	>>> processor.process_date(date)
 
-The threads and message_prefix arguments to the Iterator constructor are both optional.
+The threads and message_prefix arguments to the Processor constructor are both optional.
 
 The threads argument specifies the number of threads to use for processing entities (all threads will be joined after processing a single date's data, just prior to executing the date_post_processor method if specified - see below). The default value for threads is 1.
 
-The message_prefix argument specifies a text string to be prepended to a description of each entity being processed in the messages logged by the iterator. The default value for message_prefix is 'processing'.
+The message_prefix argument specifies a text string to be prepended to a description of each entity being processed in the messages logged by the processor. The default value for message_prefix is 'processing'.
 
-Any combination of the following keyword arguments may also be passed to the Iterator constructor, with each specifying a callable that will be called at a specific time during the processing of entities:
+Any combination of the following keyword arguments may also be passed to the Processor constructor, with each specifying a callable that will be called at a specific time during the processing of entities:
 
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
 | Keyword               | Calls                              | When                                                                             |
@@ -444,14 +444,14 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.trainers
 	nosetests pyracing.test.performances
 	nosetests pyracing.test.performance_lists
-	nosetests pyracing.test.iterator
+	nosetests pyracing.test.processor
 
 
 Version History
 ---------------
 
 0.1.1 (22 April 2016)
-	Fix issue with caught exceptions hanging Iterator
+	Fix issue with caught exceptions hanging Processor
 
 0.1.0 (21 April 2016)
 	Interim release to facilitate database pre-population
