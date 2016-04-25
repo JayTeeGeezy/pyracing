@@ -171,6 +171,10 @@ The PerformanceList objects returned by the properties described above expose th
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | fourth_pct             | The number of fourths as a percentage of the number of starts (None if no starts)                                       |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| maximum_momentum       | The maximum momentum achieved for any performance in the performance list                                  |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| minimum_momentum       | The minimum momentum achieved for any performance in the performance list                                  |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | places                 | The number of placing (1st, 2nd and 3rd) performances included in the performance list                                  |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | place_pct              | The number of places as a percentage of the number of starts (None if no starts)                                        |
@@ -197,6 +201,11 @@ The PerformanceList objects returned by the properties described above expose th
 An example of accessing these statistics is given below:
 
 	>>> good_wins = runner.good.wins
+
+Runner objects also provide a calculate_expected_speed method that will return a tuple of minimum, maximum and average expected speeds for the runner based on the runner's actual weight and the minimum, maximum and average momentums for a specified performance list, as follows:
+
+	>>> calculate_expected_speed('career')
+	(15.75, 17.25, 16.50)
 
 
 Horses

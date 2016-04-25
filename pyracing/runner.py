@@ -210,6 +210,17 @@ class Runner(Entity):
 
 		return PerformanceList([performance for performance in self.career if performance['jockey_url'] == self['jockey_url']])
 
+	def calculate_expected_speed(self, performance_list):
+		"""Return a tuple containing expected speeds based on the minimum, maximum and average momentums for the specified performance list"""
+
+		performance_list = getattr(self, performance_list)
+		if performance_list is not None:
+			return (
+				performance_list.minimum_momentum / self.actual_weight,
+				performance_list.maximum_momentum / self.actual_weight,
+				performance_list.average_momentum / self.actual_weight
+				)
+
 	def get_performances_by_track_condition(self, track_condition):
 		"""Return a PerformanceList containing all prior performances on the specified track condition"""
 
