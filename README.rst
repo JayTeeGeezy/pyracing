@@ -110,6 +110,109 @@ To get the race in which a given runner competes, access the runner's race prope
 
 	>>> race = runner[index].race
 
+Runner objects also expose the following calculated values as properties that can be accessed using dot-notation:
+
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| Property                   | Description                                                                                           |
++============================+=======================================================================================================+
+| runner.actual_weight       | The weight carried by the runner plus the average weight of a racehorse (in kg)                       |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.age                 | The horse's official age as at the date of the race (calculated according to Australia standards)     |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.carrying            | The official listed weight for the runner less allowances (in kg)                                     |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.current_performance | The horse's performance for the current race if available (None if not)                               |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.result              | The final result achieved by this runner if available (None if not)                                   |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runners.spell              | The number of days since the horse's previous run (None if this is the horse's first run)             |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runners.starting_price     | The starting price for this runner if available (None if not)                                         |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.up                  | The number of races run by the horse (including the this one) since the last spell of 90 days or more |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+
+The following properties (also accessible using dot-notation) return PerformanceList objects (see below) containing a filtered list of the horse's prior performances:
+
++-----------------------------+----------------------------------------------------------------------------------------+
+| Property                    | Description                                                                            |
++=============================+========================================================================================+
+| runner.at_distance          | All prior performances at a distance within 100m of the current race                   |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.at_distance_on_track | All prior performances at a distance within 100m of the current race on the same track |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.career               | All performances prior to the current race                                             |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.firm                 | All prior performances on FIRM tracks                                                  |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.good                 | All prior performances on GOOD tracks                                                  |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.heavy                | All prior performances on HEAVY tracks                                                 |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.on_track             | All prior performances on the current track                                            |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.on_up                | All prior performances with the same UP number as the horse's current run              |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.since_rest           | All performances since the horse's last spell of 90 days or more                       |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.soft                 | All prior performances on SOFT tracks                                                  |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.synthetic            | All prior performances on SYNTHETIC tracks                                             |
++-----------------------------+----------------------------------------------------------------------------------------+
+| runner.with_jockey          | All prior performances for the horse with the same jockey                              |
++-----------------------------+----------------------------------------------------------------------------------------+
+
+The PerformanceList objects returned by the properties described above expose the following properties:
+
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| Property               | Description                                                                                                             |
++========================+=========================================================================================================================+
+| average_momentum       | The average momentum per start in the performance list (None if no starts)                                              |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| average_prize_money    | The average prize money earned per start in the performance list (None if no starts)                                    |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| average_starting_price | The average starting price per start in the performance list (None if no starts)                                        |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| fourths                | The number of fourth placing performances included in the performance list                                              |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| fourth_pct             | The number of fourths as a percentage of the number of starts (None if no starts)                                       |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| maximum_momentum       | The maximum momentum achieved for any performance in the performance list                                               |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| minimum_momentum       | The minimum momentum achieved for any performance in the performance list                                               |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| places                 | The number of placing (1st, 2nd and 3rd) performances included in the performance list                                  |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| place_pct              | The number of places as a percentage of the number of starts (None if no starts)                                        |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| roi                    | The total starting price for wins less the number of starts as a percentage of the number of starts (None if no starts) |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| seconds                | The number of second placing performances included in the performance list                                              |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| second_pct             | The number of seconds as a percentage of the number of starts (None if no starts)                                       |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| starts                 | The total number of starts included in the performance list                                                             |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| thirds                 | The number of third placing performances included in the performance list                                               |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| third_pct              | The number of thirds as a percentage of the number of starts (None if no starts)                                        |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| total_prize_money      | The total prize money earned in the performance list                                                                    |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| wins                   | The number of winning performances included in the performance list                                                     |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+| win_pct                | The number of wins as a percentage of the number of starts (None if no starts)                                          |
++------------------------+-------------------------------------------------------------------------------------------------------------------------+
+
+An example of accessing these statistics is given below:
+
+	>>> good_wins = runner.good.wins
+
+Runner objects also provide a calculate_expected_speed method that will return a tuple of minimum, maximum and average expected speeds for the runner based on the runner's actual weight and the minimum, maximum and average momentums for a specified performance list, as follows:
+
+	>>> runner.calculate_expected_speed('career')
+	(15.75, 17.25, 16.50)
+
 
 Horses
 ~~~~~~
@@ -182,57 +285,71 @@ The get_performances_by_horse method will return a list of Performance objects. 
 
 	>>> result = performances[index]['result']
 
+Performance objects also expose the following calculated values as properties that can be accessed using dot-notation:
+
++-----------------------------+--------------------------------------------------------------------------------+
+| Property                    | Description                                                                    |
++=============================+================================================================================+
+| performance.actual_distance | The actual distance run by the horse in the winning time (in metres)           |
++-----------------------------+--------------------------------------------------------------------------------+
+| performance.actual_weight   | The weight carried by the horse plus the average weight of a racehorse (in kg) |
++-----------------------------+--------------------------------------------------------------------------------+
+| performance.momentum        | The average momentum achieved by the horse (in kg m/s)                         |
++-----------------------------+--------------------------------------------------------------------------------+
+| performance.speed           | The average speed run by the horse (in m/s)                                    |
++-----------------------------+--------------------------------------------------------------------------------+
+
 
 Batch Processing
 ~~~~~~~~~~~~~~~~
 
-The pyracing package includes an Iterator class to facilitate the batch processing of ALL racing data for a specified date range.
+The pyracing package includes a Processor class to facilitate the batch processing of ALL racing data for a specified date range.
 
-To implement batch processing, create an instance of the Iterator class and call its process_dates method as follows:
+To implement batch processing, extend the Processor class with your own custom sub-class and call its process_dates method as follows:
 
-	>>> iterator = pyracing.Iterator(threads=1, message_prefix='processing', {keyword arguments})
-	>>> iterator.process_dates(date_from, date_to)
+	>>> custom_processor = CustomProcessor(threads=1, message_prefix='processing')
+	>>> custom_processor.process_dates(date_from, date_to)
 
 Alternatively, to process ALL racing data for a single date instead, call the process_date method as follows:
 
-	>>> iterator.process_date(date)
+	>>> custom_processor.process_date(date)
 
-The threads and message_prefix arguments to the Iterator constructor are both optional.
+The threads and message_prefix arguments to the Processor constructor are both optional.
 
-The threads argument specifies the number of threads to use for processing entities (all threads will be joined after processing a single date's data, just prior to executing the date_post_processor method if specified - see below). The default value for threads is 1.
+The threads argument specifies the number of threads to use for processing entities (all threads will be joined after processing a single date's data, just prior to executing the post_process_date method if specified - see below). The default value for threads is 1.
 
-The message_prefix argument specifies a text string to be prepended to a description of each entity being processed in the messages logged by the iterator. The default value for message_prefix is 'processing'.
+The message_prefix argument specifies a text string to be prepended to a description of each entity being processed in the messages logged by the processor. The default value for message_prefix is 'processing'.
 
-Any combination of the following keyword arguments may also be passed to the Iterator constructor, with each specifying a callable that will be called at a specific time during the processing of entities:
+Any combination of the following instance methods may be defined in a custom Processor class, with each being called at a specific time during the processing of entities:
 
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| Keyword               | Calls                              | When                                                                             |
+| Method                | Calls                              | When                                                                             |
 +=======================+====================================+==================================================================================+
-| date_pre_processor    | date_pre_processor(date)           | BEFORE meets occurring on date are processed                                     |
+| pre_process_date      | pre_process_date(date)             | BEFORE meets occurring on date are processed                                     |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| date_post_processor   | date_post_processor(date)          | AFTER meets occurring on date have been processed (and threads have been joined) |
+| post_process_date     | post_process_date(date)            | AFTER meets occurring on date have been processed (and threads have been joined) |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| meet_pre_processor    | meet_pre_processor(meet)           | BEFORE races occurring at meet are processed                                     |
+| pre_process_meet      | pre_process_meet(meet)             | BEFORE races occurring at meet are processed                                     |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| meet_post_processor   | meet_post_processor(mmet)          | AFTER races occurring at meet have been processed                                |
+| post_process_meet     | post_process_meet(meet)            | AFTER races occurring at meet have been processed                                |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| race_pre_processor    | race_pre_processor(race)           | BEFORE runners competing in race are processed                                   |
+| pre_process_race      | pre_process_race(race)             | BEFORE runners competing in race are processed                                   |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| race_post_processor   | race_post_processor(race)          | AFTER runners competing in race have been processed                              |
+| post_process_race     | post_process_race(race)            | AFTER runners competing in race have been processed                              |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| runner_pre_processor  | runner_pre_processor(runner)       | BEFORE the runner's horse, jockey and trainer are processed                      |
+| pre_process_runner    | pre_process_runner(runner)         | BEFORE the runner's horse, jockey and trainer are processed                      |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| runner_post_processor | runner_post_processor(runner)      | AFTER the runner's horse, jockey and trainer have been processed                 |
+| post_process_runner   | post_process_runner(runner)        | AFTER the runner's horse, jockey and trainer have been processed                 |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| horse_pre_processor   | horse_pre_processor(horse)         | BEFORE the horse's performances are processed                                    |
+| pre_process_horse     | pre_process_horse(horse)           | BEFORE the horse's performances are processed                                    |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| horse_post_processor  | horse_post_processor(horse)        | AFTER the horse's performances have been processed                               |
+| post_process_horse    | post_process_horse(horse)          | AFTER the horse's performances have been processed                               |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| jockey_processor      | jockey_processor(jockey)           | ONCE for each run by a jockey                                                    |
+| process_jockey        | process_jockey(jockey)             | ONCE for each run by a jockey                                                    |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| trainer_processor     | trainer_processor(trainer)         | ONCE for each run by a trainer                                                   |
+| process_trainer       | process_trainer(trainer)           | ONCE for each run by a trainer                                                   |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
-| performance_processor | performance_processor(performance) | ONCE for each performance by a horse                                             |
+| process_performance   | process_performance(performance)   | ONCE for each performance by a horse                                             |
 +-----------------------+------------------------------------+----------------------------------------------------------------------------------+
 
 
@@ -326,14 +443,18 @@ Alternatively, individual components of pyracing can be tested by executing any 
 	nosetests pyracing.test.jockeys
 	nosetests pyracing.test.trainers
 	nosetests pyracing.test.performances
-	nosetests pyracing.test.iterator
+	nosetests pyracing.test.performance_lists
+	nosetests pyracing.test.processor
 
 
 Version History
 ---------------
 
+0.2.0 (26 April 2016)
+	Interim release to facilitate pre-seeding query data
+
 0.1.1 (22 April 2016)
-	Fix issue with caught exceptions hanging Iterator
+	Fix issue with caught exceptions hanging Processor
 
 0.1.0 (21 April 2016)
 	Interim release to facilitate database pre-population

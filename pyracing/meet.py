@@ -1,5 +1,7 @@
 import locale
 
+from kids.cache import cache
+
 from .common import Entity
 
 
@@ -35,6 +37,7 @@ class Meet(Entity):
 		return '{track} on {date}'.format(track=self['track'], date=self['date'].strftime(locale.nl_langinfo(locale.D_FMT)))
 
 	@property
+	@cache
 	def races(self):
 		"""Return a list of races occurring at this meet"""
 

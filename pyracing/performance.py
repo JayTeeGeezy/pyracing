@@ -1,10 +1,14 @@
 import locale
 
+from kids.cache import cache
+
 from .common import Entity
 
 
 class Performance(Entity):
 	"""A performance represents a the result of a past run for a horse and jockey"""
+
+	METRES_PER_LENGTH = 2.4
 
 	@classmethod
 	def get_performance_by_id(cls, id):
@@ -40,16 +44,46 @@ class Performance(Entity):
 		return 'performance for {horse} at {track} on {date}'.format(horse=self.horse, track=self['track'], date=self['date'].strftime(locale.nl_langinfo(locale.D_FMT)))
 
 	@property
+	@cache
+	def actual_distance(self):
+		"""Return the actual distance run by the horse in the winning time"""
+
+		return self['distance'] - (self['lengths'] * self.METRES_PER_LENGTH)
+
+	@property
+	@cache
+	def actual_weight(self):
+		"""Return the weight carried by the horse plus the average weight of a racehorse"""
+
+		return self['carried'] + Horse.AVERAGE_WEIGHT
+
+	@property
+	@cache
 	def horse(self):
 		"""Return the actual horse involved in this performance"""
 
 		return Horse.get_horse_by_performance(self)
 
 	@property
+	@cache
 	def jockey(self):
 		"""Return the actual jockey involved in this performance"""
 
 		return Jockey.get_jockey_by_performance(self)
+
+	@property
+	@cache
+	def momentum(self):
+		"""Return the average momentum achieved by the horse during this performance"""
+
+		return self.actual_weight * self.speed
+
+	@property
+	@cache
+	def speed(self):
+		"""Return the average speed run by the horse during this performance"""
+
+		return self.actual_distance / self['winning_time']
 
 
 from .horse import Horse

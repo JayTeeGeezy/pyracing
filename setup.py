@@ -8,7 +8,7 @@ def read_text(filename):
 
 setup(
 	name='pyracing',
-	version='0.1.1',
+	version='0.2.0',
 	description='Python horse racing class library',
 	long_description=read_text('README.rst'),
 	classifiers=[
@@ -36,10 +36,12 @@ setup(
 		]
 	},
 	install_requires=[
+		'kids.cache'
 	],
 	test_suite='nose.collector',
 	tests_require=[
 		'cache_requests',
+		'kids.cache',
 		'lxml',
 		'nose',
 		'pymongo',

@@ -1,8 +1,12 @@
+from kids.cache import cache
+
 from .common import Entity
 
 
 class Horse(Entity):
 	"""A horse represents the equine component of a runner"""
+
+	AVERAGE_WEIGHT = 453.592
 
 	@classmethod
 	def get_horse_by_id(cls, id):
@@ -47,6 +51,7 @@ class Horse(Entity):
 		return 'horse {name}'.format(name=self['name'])
 
 	@property
+	@cache
 	def performances(self):
 		"""Return a list of performances involving this horse"""
 

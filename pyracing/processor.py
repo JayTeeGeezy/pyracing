@@ -7,7 +7,7 @@ from .profiling import log_time
 from .threaded_queues import WorkerQueue
 
 
-class Iterator:
+class Processor:
 
 	def __init__(self, threads=1, message_prefix=None, *args, **kwargs):
 		"""Initialize instance dependencies"""
@@ -18,9 +18,6 @@ class Iterator:
 		self.message_prefix = 'processing'
 		if message_prefix is not None:
 			self.message_prefix = message_prefix
-
-		self.args = args
-		self.kwargs = kwargs
 
 	def process_dates(self, date_from, date_to):
 		"""Process all racing data for the specified date range"""
@@ -45,8 +42,8 @@ class Iterator:
 	def process_date(self, date):
 		"""Process all racing data for the specified date"""
 
-		if 'date_pre_processor' in self.kwargs and self.kwargs['date_pre_processor'] is not None:
-			self.kwargs['date_pre_processor'](date)
+		if hasattr(self, 'pre_process_date'):
+			self.pre_process_date(date)
 
 		if self.must_process_meets:
 
@@ -67,14 +64,14 @@ class Iterator:
 			if self.worker_queue.exception is not None:
 				raise self.worker_queue.exception
 
-		if 'date_post_processor' in self.kwargs and self.kwargs['date_post_processor'] is not None:
-			self.kwargs['date_post_processor'](date)
+		if hasattr(self, 'post_process_date'):
+			self.post_process_date(date)
 
 	def process_meet(self, meet):
 		"""Process the specified meet"""
 
-		if 'meet_pre_processor' in self.kwargs and self.kwargs['meet_pre_processor'] is not None:
-			self.kwargs['meet_pre_processor'](meet)
+		if hasattr(self, 'pre_process_meet'):
+			self.pre_process_meet(meet)
 
 		if self.must_process_races:
 			for race in meet.races:
@@ -87,14 +84,14 @@ class Iterator:
 					}
 					)
 
-		if 'meet_post_processor' in self.kwargs and self.kwargs['meet_post_processor'] is not None:
-			self.kwargs['meet_post_processor'](meet)
+		if hasattr(self, 'post_process_meet'):
+			self.post_process_meet(meet)
 
 	def process_race(self, race):
 		"""Process the specified race"""
 
-		if 'race_pre_processor' in self.kwargs and self.kwargs['race_pre_processor'] is not None:
-			self.kwargs['race_pre_processor'](race)
+		if hasattr(self, 'pre_process_race'):
+			self.pre_process_race(race)
 
 		if self.must_process_runners:
 			for runner in race.runners:
@@ -107,14 +104,14 @@ class Iterator:
 					}
 					)
 
-		if 'race_post_processor' in self.kwargs and self.kwargs['race_post_processor'] is not None:
-			self.kwargs['race_post_processor'](race)
+		if hasattr(self, 'post_process_race'):
+			self.post_process_race(race)
 
 	def process_runner(self, runner):
 		"""Process the specified runner"""
 
-		if 'runner_pre_processor' in self.kwargs and self.kwargs['runner_pre_processor'] is not None:
-			self.kwargs['runner_pre_processor'](runner)
+		if hasattr(self, 'pre_process_runner'):
+			self.pre_process_runner(runner)
 
 		if self.must_process_horses and runner.horse is not None:
 			self.worker_queue.add_item(
@@ -146,14 +143,14 @@ class Iterator:
 					}
 					)
 
-		if 'runner_post_processor' in self.kwargs and self.kwargs['runner_post_processor'] is not None:
-			self.kwargs['runner_post_processor'](runner)
+		if hasattr(self, 'post_process_runner'):
+			self.post_process_runner(runner)
 
 	def process_horse(self, horse):
 		"""Process the specified horse"""
 
-		if 'horse_pre_processor' in self.kwargs and self.kwargs['horse_pre_processor'] is not None:
-			self.kwargs['horse_pre_processor'](horse)
+		if hasattr(self, 'pre_process_horse'):
+			self.pre_process_horse(horse)
 
 		if self.must_process_performances:
 			for performance in horse.performances:
@@ -166,55 +163,37 @@ class Iterator:
 					}
 					)
 
-		if 'horse_post_processor' in self.kwargs and self.kwargs['horse_post_processor'] is not None:
-			self.kwargs['horse_post_processor'](horse)
-
-	def process_jockey(self, jockey):
-		"""Process the specified jockey"""
-
-		if 'jockey_processor' in self.kwargs and self.kwargs['jockey_processor'] is not None:
-			self.kwargs['jockey_processor'](jockey)
-
-	def process_trainer(self, trainer):
-		"""Process the specified trainer"""
-
-		if 'trainer_processor' in self.kwargs and self.kwargs['trainer_processor'] is not None:
-			self.kwargs['trainer_processor'](trainer)
-
-	def process_performance(self, performance):
-		"""Process the specified performance"""
-
-		if 'performance_processor' in self.kwargs and self.kwargs['performance_processor'] is not None:
-			self.kwargs['performance_processor'](performance)
+		if hasattr(self, 'post_process_horse'):
+			self.post_process_horse(horse)
 
 	@property
 	def must_process_dates(self):
-		return 'date_pre_processor' in self.kwargs or 'date_post_processor' in self.kwargs or self.must_process_meets
+		return hasattr(self, 'pre_process_date') or hasattr(self, 'post_process_date') or self.must_process_meets
 
 	@property
 	def must_process_meets(self):
-		return 'meet_pre_processor' in self.kwargs or 'meet_post_processor' in self.kwargs or self.must_process_races
+		return hasattr(self, 'pre_process_meet') or hasattr(self, 'post_process_meet') or self.must_process_races
 
 	@property
 	def must_process_races(self):
-		return 'race_pre_processor' in self.kwargs or 'race_post_processor' in self.kwargs or self.must_process_performances
+		return hasattr(self, 'pre_process_race') or hasattr(self, 'post_process_race') or self.must_process_runners
 
 	@property
 	def must_process_runners(self):
-		return 'runner_pre_processor' in self.kwargs or 'runner_pre_processor' in self.kwargs or self.must_process_horses or self.must_process_jockeys or self.must_process_trainers
+		return hasattr(self, 'pre_process_runner') or hasattr(self, 'post_process_runner') or self.must_process_horses or self.must_process_jockeys or self.must_process_trainers
 
 	@property
 	def must_process_horses(self):
-		return 'horse_pre_processor' in self.kwargs or 'horse_post_processor' in self.kwargs or self.must_process_performances
+		return hasattr(self, 'pre_process_horse') or hasattr(self, 'post_process_horse') or self.must_process_performances
 
 	@property
 	def must_process_jockeys(self):
-		return 'jockey_processor' in self.kwargs
+		return hasattr(self, 'process_jockey')
 
 	@property
 	def must_process_trainers(self):
-		return 'trainer_processor' in self.kwargs
+		return hasattr(self, 'process_trainer')
 
 	@property
 	def must_process_performances(self):
-		return 'performance_processor' in self.kwargs
+		return hasattr(self, 'process_performance')

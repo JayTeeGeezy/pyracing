@@ -1,3 +1,5 @@
+from kids.cache import cache
+
 from .common import Entity
 
 
@@ -46,12 +48,14 @@ class Race(Entity):
 		return 'race {number} at {meet}'.format(number=self['number'], meet=self.meet)
 
 	@property
+	@cache
 	def meet(self):
 		"""Return the meet at which this race occurs"""
 
 		return Meet.get_meet_by_id(self['meet_id'])
 
 	@property
+	@cache
 	def runners(self):
 		"""Return a list of the runners competing in this race"""
 
