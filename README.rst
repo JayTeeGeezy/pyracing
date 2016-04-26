@@ -112,25 +112,25 @@ To get the race in which a given runner competes, access the runner's race prope
 
 Runner objects also expose the following calculated values as properties that can be accessed using dot-notation:
 
-+---------------+-------------------------------------------------------------------------------------------------------+
-| Property      | Description                                                                                           |
-+===============+=======================================================================================================+
-| runner.actual_weight | The weight carried by the runner plus the average weight of a racehorse (in kg) |
-+---------------+-------------------------------------------------------------------------------------------------------+
-| runner.age    | The horse's official age as at the date of the race (calculated according to Australia standards)     |
-+---------------+-------------------------------------------------------------------------------------------------------+
-| runner.carrying | The official listed weight for the runner less allowances (in kg) |
-+---------------+-------------------------------------------------------------------------------------------------------+
-| runner.current_performance | The horse's performance for the current race if available (None if not) |
-+---------------+-------------------------------------------------------------------------------------------------------+
-| runner.result | The final result achieved by this runner if available (None if not) |
-+---------------+-------------------------------------------------------------------------------------------------------+
-| runners.spell | The number of days since the horse's previous run (None if this is the horse's first run)             |
-+---------------+-------------------------------------------------------------------------------------------------------+
-| runners.starting_price | The starting price for this runner if available (None if not)             |
-+---------------+-------------------------------------------------------------------------------------------------------+
-| runner.up     | The number of races run by the horse (including the this one) since the last spell of 90 days or more |
-+---------------+-------------------------------------------------------------------------------------------------------+
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| Property                   | Description                                                                                           |
++============================+=======================================================================================================+
+| runner.actual_weight       | The weight carried by the runner plus the average weight of a racehorse (in kg)                       |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.age                 | The horse's official age as at the date of the race (calculated according to Australia standards)     |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.carrying            | The official listed weight for the runner less allowances (in kg)                                     |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.current_performance | The horse's performance for the current race if available (None if not)                               |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.result              | The final result achieved by this runner if available (None if not)                                   |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runners.spell              | The number of days since the horse's previous run (None if this is the horse's first run)             |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runners.starting_price     | The starting price for this runner if available (None if not)                                         |
++----------------------------+-------------------------------------------------------------------------------------------------------+
+| runner.up                  | The number of races run by the horse (including the this one) since the last spell of 90 days or more |
++----------------------------+-------------------------------------------------------------------------------------------------------+
 
 The following properties (also accessible using dot-notation) return PerformanceList objects (see below) containing a filtered list of the horse's prior performances:
 
@@ -167,7 +167,7 @@ The PerformanceList objects returned by the properties described above expose th
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | Property               | Description                                                                                                             |
 +========================+=========================================================================================================================+
-| average_momentum       | The average momentum per start in the performance list (None if no starts)                                    |
+| average_momentum       | The average momentum per start in the performance list (None if no starts)                                              |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | average_prize_money    | The average prize money earned per start in the performance list (None if no starts)                                    |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
@@ -177,9 +177,9 @@ The PerformanceList objects returned by the properties described above expose th
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | fourth_pct             | The number of fourths as a percentage of the number of starts (None if no starts)                                       |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
-| maximum_momentum       | The maximum momentum achieved for any performance in the performance list                                  |
+| maximum_momentum       | The maximum momentum achieved for any performance in the performance list                                               |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
-| minimum_momentum       | The minimum momentum achieved for any performance in the performance list                                  |
+| minimum_momentum       | The minimum momentum achieved for any performance in the performance list                                               |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
 | places                 | The number of placing (1st, 2nd and 3rd) performances included in the performance list                                  |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
@@ -210,7 +210,7 @@ An example of accessing these statistics is given below:
 
 Runner objects also provide a calculate_expected_speed method that will return a tuple of minimum, maximum and average expected speeds for the runner based on the runner's actual weight and the minimum, maximum and average momentums for a specified performance list, as follows:
 
-	>>> calculate_expected_speed('career')
+	>>> runner.calculate_expected_speed('career')
 	(15.75, 17.25, 16.50)
 
 
