@@ -36,10 +36,12 @@ setup(
 		]
 	},
 	install_requires=[
+		'kids.cache'
 	],
 	test_suite='nose.collector',
 	tests_require=[
 		'cache_requests',
+		'kids.cache',
 		'lxml',
 		'nose',
 		'pymongo',
