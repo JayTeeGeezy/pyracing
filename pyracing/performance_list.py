@@ -17,7 +17,7 @@ class PerformanceList(list):
 	def average_momentum(self):
 		"""Return the average momentum per start in this performance list"""
 
-		return self.calculate_average(sum([performance.momentum for performance in self]))
+		return self.calculate_average(sum([performance.momentum for performance in self if performance.momentum is not None]))
 
 	@property
 	@cache
@@ -53,7 +53,7 @@ class PerformanceList(list):
 		"""Return the maximum momentum achieved for any performance in this list"""
 
 		if len(self) > 0:
-			return max([performance.momentum for performance in self])
+			return max([performance.momentum for performance in self if performance.momentum is not None])
 
 	@property
 	@cache
@@ -61,14 +61,15 @@ class PerformanceList(list):
 		"""Return the minimum momentum achieved for any performance in this list"""
 
 		if len(self) > 0:
-			return min([performance.momentum for performance in self])
+			return min([performance.momentum for performance in self if performance.momentum is not None])
 
 	@property
 	@cache
 	def places(self):
 		"""Return the number of placing (1st, 2nd and 3rd) performances included in this performance list"""
 
-		return self.wins + self.seconds + self.thirds
+		if self.wins is not None and self.seconds is not None and self.thirds is not None:
+			return self.wins + self.seconds + self.thirds
 
 	@property
 	@cache
@@ -146,10 +147,11 @@ class PerformanceList(list):
 		If the number of starts is 0, return divide_by_zero instead.
 		"""
 
-		if self.starts > 0:
-			return value / self.starts
-		else:
-			return divide_by_zero
+		if value is not None:
+			if self.starts > 0:
+				return value / self.starts
+			else:
+				return divide_by_zero
 
 	def count_results(self, result):
 		"""Return the number of performances in this list with the specified result"""
