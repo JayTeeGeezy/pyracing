@@ -450,6 +450,9 @@ Alternatively, individual components of pyracing can be tested by executing any 
 Version History
 ---------------
 
+0.2.0 (26 April 2016)
+	Interim release to facilitate pre-seeding query data
+
 0.1.1 (22 April 2016)
 	Fix issue with caught exceptions hanging Processor
 
