@@ -57,14 +57,15 @@ class Runner(Entity):
 	def actual_weight(self):
 		"""Return the weight carried by the runner plus the average weight of a racehorse"""
 
-		return self.carrying + Horse.AVERAGE_WEIGHT
+		if self.carrying is not None:
+			return self.carrying + Horse.AVERAGE_WEIGHT
 
 	@property
 	@cache
 	def age(self):
 		"""Return the horse's official age as at the time of the race"""
 
-		if 'foaled' in self.horse:
+		if 'foaled' in self.horse and self.horse['foaled'] is not None:
 			birthday = self.horse['foaled'].replace(month=8, day=1)
 			return (self.race.meet['date'] - birthday).days // 365
 
@@ -94,7 +95,8 @@ class Runner(Entity):
 	def carrying(self):
 		"""Return the official listed weight less allowances for the runner"""
 
-		return self['weight'] - self['jockey_claiming']
+		if 'weight' in self and self['weight'] is not None and 'jockey_claiming' in self and self['jockey_claiming'] is not None:
+			return self['weight'] - self['jockey_claiming']
 
 	@property
 	@cache
@@ -221,7 +223,8 @@ class Runner(Entity):
 		"""Return the starting price for this runner if available"""
 
 		if self.current_performance is not None:
-			return self.current_performance['starting_price']
+			if 'starting_price' in self.current_performance:
+				return self.current_performance['starting_price']
 
 	@property
 	@cache
