@@ -450,6 +450,9 @@ Alternatively, individual components of pyracing can be tested by executing any 
 Version History
 ---------------
 
+0.2.2 (26 April 2016)
+	Fix memory leak in cached properties
+
 0.2.1 (26 April 2016)
 	Fix TypeErrors in calculated properties
 

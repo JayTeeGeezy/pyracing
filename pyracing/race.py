@@ -1,5 +1,3 @@
-from kids.cache import cache
-
 from .common import Entity
 
 
@@ -16,12 +14,12 @@ class Race(Entity):
 	def get_races_by_meet(cls, meet):
 		"""Get a list of races occurring at the specified meet"""
 
-		races = cls.find_or_scrape(
+		races = sorted(cls.find_or_scrape(
 			filter={'meet_id': meet['_id']},
 			scrape=cls.scraper.scrape_races,
 			scrape_args=[meet],
 			expiry_date=meet['date']
-			)
+			), key=lambda race: race['number'])
 
 		for race in races:
 			if not 'meet_id' in race:
@@ -48,18 +46,20 @@ class Race(Entity):
 		return 'race {number} at {meet}'.format(number=self['number'], meet=self.meet)
 
 	@property
-	@cache
 	def meet(self):
 		"""Return the meet at which this race occurs"""
 
-		return Meet.get_meet_by_id(self['meet_id'])
+		if not 'meet' in self.cache:
+			self.cache['meet'] = Meet.get_meet_by_id(self['meet_id'])
+		return self.cache['meet']
 
 	@property
-	@cache
 	def runners(self):
 		"""Return a list of the runners competing in this race"""
 
-		return Runner.get_runners_by_race(self)
+		if not 'runners' in self.cache:
+			self.cache['runners'] = Runner.get_runners_by_race(self)
+		return self.cache['runners']
 
 
 from .meet import Meet
