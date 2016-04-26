@@ -450,6 +450,9 @@ Alternatively, individual components of pyracing can be tested by executing any 
 Version History
 ---------------
 
+0.2.1 (26 April 2016)
+	Fix TypeErrors in calculated properties
+
 0.2.0 (26 April 2016)
 	Interim release to facilitate pre-seeding query data
 

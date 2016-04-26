@@ -48,14 +48,16 @@ class Performance(Entity):
 	def actual_distance(self):
 		"""Return the actual distance run by the horse in the winning time"""
 
-		return self['distance'] - (self['lengths'] * self.METRES_PER_LENGTH)
+		if 'distance' in self and self['distance'] is not None and 'lengths' in self and self['lengths'] is not None:
+			return self['distance'] - (self['lengths'] * self.METRES_PER_LENGTH)
 
 	@property
 	@cache
 	def actual_weight(self):
 		"""Return the weight carried by the horse plus the average weight of a racehorse"""
 
-		return self['carried'] + Horse.AVERAGE_WEIGHT
+		if 'carried' in self and self['carried'] is not None:
+			return self['carried'] + Horse.AVERAGE_WEIGHT
 
 	@property
 	@cache
@@ -76,14 +78,16 @@ class Performance(Entity):
 	def momentum(self):
 		"""Return the average momentum achieved by the horse during this performance"""
 
-		return self.actual_weight * self.speed
+		if self.actual_weight is not None and self.speed is not None:
+			return self.actual_weight * self.speed
 
 	@property
 	@cache
 	def speed(self):
 		"""Return the average speed run by the horse during this performance"""
 
-		return self.actual_distance / self['winning_time']
+		if self.actual_distance is not None and 'winning_time' in self and self['winning_time'] is not None:
+			return self.actual_distance / self['winning_time']
 
 
 from .horse import Horse
