@@ -450,6 +450,9 @@ Alternatively, individual components of pyracing can be tested by executing any 
 Version History
 ---------------
 
+0.2.5 (27 April 2016)
+	Fix ZeroDivisionErrors
+
 0.2.4 (27 April 2016)
 	Fix ValueErrors in PerformanceList
 

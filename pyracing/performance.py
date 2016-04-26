@@ -82,7 +82,7 @@ class Performance(Entity):
 	def speed(self):
 		"""Return the average speed run by the horse during this performance"""
 
-		if self.actual_distance is not None and 'winning_time' in self and self['winning_time'] is not None:
+		if self.actual_distance is not None and 'winning_time' in self and self['winning_time'] is not None and self['winning_time'] > 0:
 			return self.actual_distance / self['winning_time']
 
 
