@@ -46,6 +46,15 @@ class Race(Entity):
 		return 'race {number} at {meet}'.format(number=self['number'], meet=self.meet)
 
 	@property
+	def importance(self):
+		"""Return the product of the starting price of all runners finishing in the first four"""
+
+		importance = 1.0
+		for starting_price in [runner.starting_price for runner in self.runners if 1 <= runner.result <= 4 and runner.starting_price is not None and runner.starting_price > 0]:
+			importance *= starting_price
+		return importance
+
+	@property
 	def meet(self):
 		"""Return the meet at which this race occurs"""
 
