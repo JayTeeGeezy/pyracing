@@ -13,7 +13,9 @@ class PerformanceList(list):
 	def average_momentum(self):
 		"""Return the average momentum per start in this performance list"""
 
-		return self.calculate_average(sum([performance.momentum for performance in self if performance.momentum is not None]))
+		momentums = self.get_momentums()
+		if len(momentums) > 0:
+			return self.calculate_average(sum(momentums))
 
 	@property
 	def average_prize_money(self):
@@ -25,7 +27,9 @@ class PerformanceList(list):
 	def average_starting_price(self):
 		"""Return the average starting price per start in this performance list"""
 
-		return self.calculate_average(sum([performance['starting_price'] for performance in self if performance['starting_price'] is not None]))
+		starting_prices = [performance['starting_price'] for performance in self if performance['starting_price'] is not None]
+		if len(starting_prices) > 0:
+			return self.calculate_average(sum(starting_prices))
 
 	@property
 	def fourths(self):
@@ -43,15 +47,17 @@ class PerformanceList(list):
 	def maximum_momentum(self):
 		"""Return the maximum momentum achieved for any performance in this list"""
 
-		if len(self) > 0:
-			return max([performance.momentum for performance in self if performance.momentum is not None])
+		momentums = self.get_momentums()
+		if len(momentums) > 0:
+			return max(momentums)
 
 	@property
 	def minimum_momentum(self):
 		"""Return the minimum momentum achieved for any performance in this list"""
 
-		if len(self) > 0:
-			return min([performance.momentum for performance in self if performance.momentum is not None])
+		momentums = self.get_momentums()
+		if len(momentums) > 0:
+			return min(momentums)
 
 	@property
 	def places(self):
@@ -70,7 +76,9 @@ class PerformanceList(list):
 	def roi(self):
 		"""Return the total starting price for winning performances less the total number of performances in the list, expressed as a percentage of the number of starts"""
 
-		return self.calculate_percentage(sum([performance['starting_price'] for performance in self if performance['result'] == 1 and performance['starting_price'] is not None]) - self.starts)
+		winning_starting_prices = [performance['starting_price'] for performance in self if performance['result'] == 1 and performance['starting_price'] is not None]
+		if len(winning_starting_prices) > 0:
+			return self.calculate_percentage(sum(winning_starting_prices) - self.starts)
 
 	@property
 	def seconds(self):
@@ -106,7 +114,9 @@ class PerformanceList(list):
 	def total_prize_money(self):
 		"""Return the total prize money earned in this performance list"""
 
-		return sum([performance['runner_prize_money'] for performance in self if performance['runner_prize_money'] is not None])
+		runner_prize_monies = [performance['runner_prize_money'] for performance in self if performance['runner_prize_money'] is not None]
+		if len(runner_prize_monies) > 0:
+			return sum(runner_prize_monies)
 
 	@property
 	def wins(self):
@@ -136,3 +146,8 @@ class PerformanceList(list):
 		"""Return the number of performances in this list with the specified result"""
 
 		return len([performance for performance in self if performance['result'] == result])
+
+	def get_momentums(self):
+		"""Return an array containing the momentums for all performances in this list"""
+
+		return [performance.momentum for performance in self if performance.momentum is not None]

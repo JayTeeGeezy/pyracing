@@ -69,19 +69,25 @@ class Runner(Entity):
 	def at_distance(self):
 		"""Return a PerformanceList containing all of the horse's prior performances within 100m of the current race's distance"""
 
-		return PerformanceList([performance for performance in self.career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
+		if not 'at_distance' in self.cache:
+			self.cache['at_distance'] = PerformanceList([performance for performance in self.career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
+		return self.cache['at_distance']
 
 	@property
 	def at_distance_on_track(self):
 		"""Return a PerformanceList containing all of the horse's prior performances within 100m of the current race's distance on the current track"""
 
-		return PerformanceList([performance for performance in self.at_distance if performance in self.on_track])
+		if not 'at_distance_on_track' in self.cache:
+			self.cache['at_distance_on_track'] = PerformanceList([performance for performance in self.at_distance if performance in self.on_track])
+		return self.cache['at_distance_on_track']
 
 	@property
 	def career(self):
 		"""Return a PerformanceList containing all of the horse's performances prior to the current race"""
 
-		return PerformanceList([performance for performance in self.horse.performances if performance['date'] < self.race.meet['date']])
+		if not 'career' in self.cache:
+			self.cache['career'] = PerformanceList([performance for performance in self.horse.performances if performance['date'] < self.race.meet['date']])
+		return self.cache['career']
 
 	@property
 	def carrying(self):
@@ -102,19 +108,25 @@ class Runner(Entity):
 	def firm(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on firm tracks"""
 
-		return self.get_performances_by_track_condition('firm')
+		if not 'firm' in self.cache:
+			self.cache['firm'] = self.get_performances_by_track_condition('firm')
+		return self.cache['firm']
 
 	@property
 	def good(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on good tracks"""
 
-		return self.get_performances_by_track_condition('good')
+		if not 'good' in self.cache:
+			self.cache['good'] = self.get_performances_by_track_condition('good')
+		return self.cache['good']
 
 	@property
 	def heavy(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on heavy tracks"""
 
-		return self.get_performances_by_track_condition('heavy')
+		if not 'heavy' in self.cache:
+			self.cache['heavy'] = self.get_performances_by_track_condition('heavy')
+		return self.cache['heavy']
 
 	@property
 	def horse(self):
@@ -136,25 +148,31 @@ class Runner(Entity):
 	def on_track(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on the current track"""
 
-		return PerformanceList([performance for performance in self.career if performance['track'] == self.race.meet['track']])
+		if not 'on_track' in self.cache:
+			self.cache['on_track'] = PerformanceList([performance for performance in self.career if performance['track'] == self.race.meet['track']])
+		return self.cache['on_track']
 
 	@property
 	def on_up(self):
 		"""Return a PerformanceList containing all of the horse's prior performances with the same UP number"""
 
-		performances = []
-		previous_date = None
-		up = 0
-		for index in range(len(self.career) - 1, 0, -1):
-			if previous_date is None or ((self.career[index]['date'] - previous_date) < self.REST_PERIOD):
-				up += 1
-			else:
-				up = 1
-			if up == self.up:
-				performances.append(self.career[index])
-			previous_date = self.career[index]['date']
+		if not 'on_up' in self.cache:
 
-		return PerformanceList(performances)
+			performances = []
+			previous_date = None
+			up = 0
+			for index in range(len(self.career) - 1, 0, -1):
+				if previous_date is None or ((self.career[index]['date'] - previous_date) < self.REST_PERIOD):
+					up += 1
+				else:
+					up = 1
+				if up == self.up:
+					performances.append(self.career[index])
+				previous_date = self.career[index]['date']
+
+			self.cache['on_up'] = PerformanceList(performances)
+
+		return self.cache['on_up']
 
 	@property
 	def race(self):
@@ -178,22 +196,28 @@ class Runner(Entity):
 	def since_rest(self):
 		"""Return a PerformanceList containing the horse's prior performances since the last spell of 90 days or more"""
 
-		performances = []
-		next_date = self.race.meet['date']
-		for index in range(len(self.career)):
-			if (next_date - self.career[index]['date']) < self.REST_PERIOD:
-				performances.append(self.career[index])
-				next_date = self.career[index]['date']
-			else:
-				break
+		if not 'since_rest' in self.cache:
 
-		return PerformanceList(performances)
+			performances = []
+			next_date = self.race.meet['date']
+			for index in range(len(self.career)):
+				if (next_date - self.career[index]['date']) < self.REST_PERIOD:
+					performances.append(self.career[index])
+					next_date = self.career[index]['date']
+				else:
+					break
+
+			self.cache['since_rest'] = PerformanceList(performances)
+
+		return self.cache['since_rest']
 
 	@property
 	def soft(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on soft tracks"""
 
-		return self.get_performances_by_track_condition('soft')
+		if not 'soft' in self.cache:
+			self.cache['soft'] = self.get_performances_by_track_condition('soft')
+		return self.cache['soft']
 
 	@property
 	def spell(self):
@@ -214,7 +238,9 @@ class Runner(Entity):
 	def synthetic(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on synthetic tracks"""
 
-		return self.get_performances_by_track_condition('synthetic')
+		if not 'synthetic' in self.cache:
+			self.cache['synthetic'] = self.get_performances_by_track_condition('synthetic')
+		return self.cache['synthetic']
 
 	@property
 	def trainer(self):
@@ -244,7 +270,9 @@ class Runner(Entity):
 	def with_jockey(self):
 		"""Return a PerformanceList containing all of the horse's prior performances with the same jockey"""
 
-		return PerformanceList([performance for performance in self.career if performance['jockey_url'] == self['jockey_url']])
+		if not 'with_jockey' in self.cache:
+			self.cache['with_jockey'] = PerformanceList([performance for performance in self.career if performance['jockey_url'] == self['jockey_url']])
+		return self.cache['with_jockey']
 
 	def calculate_expected_speed(self, performance_list):
 		"""Return a tuple containing expected speeds based on the minimum, maximum and average momentums for the specified performance list"""
