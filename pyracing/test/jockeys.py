@@ -40,7 +40,7 @@ class GetFutureJockeyByRunnerTest(EntityTest):
 		"""Subsequent calls to get_jockey_by_runner for the same future runner should replace data in the database"""
 
 		meet = pyracing.Meet.get_meets_by_date(future_date)[0]
-		race = meet.races[0]
+		race = meet.races[-1]
 		runner = race.runners[0]
 		old_jockey = pyracing.Jockey.get_jockey_by_runner(runner)
 
