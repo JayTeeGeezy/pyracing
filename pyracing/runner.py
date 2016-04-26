@@ -251,11 +251,18 @@ class Runner(Entity):
 
 		performance_list = getattr(self, performance_list)
 		if performance_list is not None:
-			return (
-				performance_list.minimum_momentum / self.actual_weight,
-				performance_list.maximum_momentum / self.actual_weight,
-				performance_list.average_momentum / self.actual_weight
-				)
+
+			expected_speeds = [None, None, None]
+
+			if self.actual_weight is not None:
+				if performance_list.minimum_momentum is not None:
+					expected_speeds[0] = performance_list.minimum_momentum / self.actual_weight
+				if performance_list.maximum_momentum is not None:
+					expected_speeds[1] = performance_list.maximum_momentum / self.actual_weight
+				if performance_list.average_momentum is not None:
+					expected_speeds[2] = performance_list.average_momentum / self.actual_weight
+
+			return tuple(expected_speeds)
 
 	def get_performances_by_track_condition(self, track_condition):
 		"""Return a PerformanceList containing all prior performances on the specified track condition"""
