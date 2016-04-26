@@ -282,7 +282,7 @@ class Runner(Entity):
 
 			expected_speeds = [None, None, None]
 
-			if self.actual_weight is not None:
+			if self.actual_weight is not None and self.actual_weight > 0:
 				if performance_list.minimum_momentum is not None:
 					expected_speeds[0] = performance_list.minimum_momentum / self.actual_weight
 				if performance_list.maximum_momentum is not None:
