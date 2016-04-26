@@ -1,7 +1,5 @@
 from datetime import timedelta
 
-from kids.cache import cache
-
 from .common import Entity
 from .performance_list import PerformanceList
 
@@ -21,12 +19,12 @@ class Runner(Entity):
 	def get_runners_by_race(cls, race):
 		"""Get a list of runners competing in the specified race"""
 
-		runners = cls.find_or_scrape(
+		runners = sorted(cls.find_or_scrape(
 			filter={'race_id': race['_id']},
 			scrape=cls.scraper.scrape_runners,
 			scrape_args=[race],
 			expiry_date=race['start_time']
-			)
+			), key=lambda runner: runner['number'])
 
 		for runner in runners:
 			if not 'race_id' in runner:
@@ -53,7 +51,6 @@ class Runner(Entity):
 		return 'runner {number} in {race}'.format(number=self['number'], race=self.race)
 
 	@property
-	@cache
 	def actual_weight(self):
 		"""Return the weight carried by the runner plus the average weight of a racehorse"""
 
@@ -61,7 +58,6 @@ class Runner(Entity):
 			return self.carrying + Horse.AVERAGE_WEIGHT
 
 	@property
-	@cache
 	def age(self):
 		"""Return the horse's official age as at the time of the race"""
 
@@ -70,28 +66,24 @@ class Runner(Entity):
 			return (self.race.meet['date'] - birthday).days // 365
 
 	@property
-	@cache
 	def at_distance(self):
 		"""Return a PerformanceList containing all of the horse's prior performances within 100m of the current race's distance"""
 
 		return PerformanceList([performance for performance in self.career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
 
 	@property
-	@cache
 	def at_distance_on_track(self):
 		"""Return a PerformanceList containing all of the horse's prior performances within 100m of the current race's distance on the current track"""
 
 		return PerformanceList([performance for performance in self.at_distance if performance in self.on_track])
 
 	@property
-	@cache
 	def career(self):
 		"""Return a PerformanceList containing all of the horse's performances prior to the current race"""
 
 		return PerformanceList([performance for performance in self.horse.performances if performance['date'] < self.race.meet['date']])
 
 	@property
-	@cache
 	def carrying(self):
 		"""Return the official listed weight less allowances for the runner"""
 
@@ -99,7 +91,6 @@ class Runner(Entity):
 			return self['weight'] - self['jockey_claiming']
 
 	@property
-	@cache
 	def current_performance(self):
 		"""Return the horse's performance for the current race if available"""
 
@@ -108,49 +99,46 @@ class Runner(Entity):
 				return performance
 
 	@property
-	@cache
 	def firm(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on firm tracks"""
 
 		return self.get_performances_by_track_condition('firm')
 
 	@property
-	@cache
 	def good(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on good tracks"""
 
 		return self.get_performances_by_track_condition('good')
 
 	@property
-	@cache
 	def heavy(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on heavy tracks"""
 
 		return self.get_performances_by_track_condition('heavy')
 
 	@property
-	@cache
 	def horse(self):
 		"""Return the actual horse running in the race"""
 
-		return Horse.get_horse_by_runner(self)
+		if not 'horse' in self.cache:
+			self.cache['horse'] = Horse.get_horse_by_runner(self)
+		return self.cache['horse']
 
 	@property
-	@cache
 	def jockey(self):
 		"""Return the actual jockey riding in the race"""
 
-		return Jockey.get_jockey_by_runner(self)
+		if not 'jockey' in self.cache:
+			self.cache['jockey'] = Jockey.get_jockey_by_runner(self)
+		return self.cache['jockey']
 
 	@property
-	@cache
 	def on_track(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on the current track"""
 
 		return PerformanceList([performance for performance in self.career if performance['track'] == self.race.meet['track']])
 
 	@property
-	@cache
 	def on_up(self):
 		"""Return a PerformanceList containing all of the horse's prior performances with the same UP number"""
 
@@ -169,14 +157,14 @@ class Runner(Entity):
 		return PerformanceList(performances)
 
 	@property
-	@cache
 	def race(self):
 		"""Return the race in which this runner competes"""
 
-		return Race.get_race_by_id(self['race_id'])
+		if not 'race' in self.cache:
+			self.cache['race'] = Race.get_race_by_id(self['race_id'])
+		return self.cache['race']
 
 	@property
-	@cache
 	def result(self):
 		"""Return the final result for this runner if available"""
 
@@ -187,7 +175,6 @@ class Runner(Entity):
 				return self.current_performance['starters']
 
 	@property
-	@cache
 	def since_rest(self):
 		"""Return a PerformanceList containing the horse's prior performances since the last spell of 90 days or more"""
 
@@ -203,14 +190,12 @@ class Runner(Entity):
 		return PerformanceList(performances)
 
 	@property
-	@cache
 	def soft(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on soft tracks"""
 
 		return self.get_performances_by_track_condition('soft')
 
 	@property
-	@cache
 	def spell(self):
 		"""Return the number of days since the horse's previous run"""
 
@@ -218,7 +203,6 @@ class Runner(Entity):
 			return (self.race.meet['date'] - self.career[0]['date']).days
 
 	@property
-	@cache
 	def starting_price(self):
 		"""Return the starting price for this runner if available"""
 
@@ -227,21 +211,20 @@ class Runner(Entity):
 				return self.current_performance['starting_price']
 
 	@property
-	@cache
 	def synthetic(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on synthetic tracks"""
 
 		return self.get_performances_by_track_condition('synthetic')
 
 	@property
-	@cache
 	def trainer(self):
 		"""Return the trainer responsible for the runner"""
 
-		return Trainer.get_trainer_by_runner(self)
+		if not 'trainer' in self.cache:
+			self.cache['trainer'] = Trainer.get_trainer_by_runner(self)
+		return self.cache['trainer']
 
 	@property
-	@cache
 	def up(self):
 		"""Return the number of races run by the horse (including this one) since the last rest period of 90 days or more"""
 
@@ -258,7 +241,6 @@ class Runner(Entity):
 		return up
 
 	@property
-	@cache
 	def with_jockey(self):
 		"""Return a PerformanceList containing all of the horse's prior performances with the same jockey"""
 
