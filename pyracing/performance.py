@@ -1,7 +1,5 @@
 import locale
 
-from kids.cache import cache
-
 from .common import Entity
 
 
@@ -20,11 +18,11 @@ class Performance(Entity):
 	def get_performances_by_horse(cls, horse):
 		"""Get a list of performances for the specified horse"""
 
-		return cls.find_or_scrape(
+		return sorted(cls.find_or_scrape(
 			filter={'horse_url': horse['url']},
 			scrape=cls.scraper.scrape_performances,
 			scrape_args=[horse['url']]
-			)
+			), key=lambda performance: performance['date'], reverse=True)
 
 	@classmethod
 	def initialize(cls):
@@ -44,7 +42,6 @@ class Performance(Entity):
 		return 'performance for {horse} at {track} on {date}'.format(horse=self.horse, track=self['track'], date=self['date'].strftime(locale.nl_langinfo(locale.D_FMT)))
 
 	@property
-	@cache
 	def actual_distance(self):
 		"""Return the actual distance run by the horse in the winning time"""
 
@@ -52,7 +49,6 @@ class Performance(Entity):
 			return self['distance'] - (self['lengths'] * self.METRES_PER_LENGTH)
 
 	@property
-	@cache
 	def actual_weight(self):
 		"""Return the weight carried by the horse plus the average weight of a racehorse"""
 
@@ -60,21 +56,22 @@ class Performance(Entity):
 			return self['carried'] + Horse.AVERAGE_WEIGHT
 
 	@property
-	@cache
 	def horse(self):
 		"""Return the actual horse involved in this performance"""
 
-		return Horse.get_horse_by_performance(self)
+		if not 'horse' in self.cache:
+			self.cache['horse'] = Horse.get_horse_by_performance(self)
+		return self.cache['horse']
 
 	@property
-	@cache
 	def jockey(self):
 		"""Return the actual jockey involved in this performance"""
 
-		return Jockey.get_jockey_by_performance(self)
+		if not 'jockey' in self.cache:
+			self.cache['jockey'] = Jockey.get_jockey_by_performance(self)
+		return self.cache['jockey']
 
 	@property
-	@cache
 	def momentum(self):
 		"""Return the average momentum achieved by the horse during this performance"""
 
@@ -82,7 +79,6 @@ class Performance(Entity):
 			return self.actual_weight * self.speed
 
 	@property
-	@cache
 	def speed(self):
 		"""Return the average speed run by the horse during this performance"""
 

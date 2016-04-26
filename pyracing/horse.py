@@ -1,5 +1,3 @@
-from kids.cache import cache
-
 from .common import Entity
 
 
@@ -51,11 +49,12 @@ class Horse(Entity):
 		return 'horse {name}'.format(name=self['name'])
 
 	@property
-	@cache
 	def performances(self):
 		"""Return a list of performances involving this horse"""
 
-		return Performance.get_performances_by_horse(self)
+		if not 'performances' in self.cache:
+			self.cache['performances'] = Performance.get_performances_by_horse(self)
+		return self.cache['performances']
 
 
 from .performance import Performance

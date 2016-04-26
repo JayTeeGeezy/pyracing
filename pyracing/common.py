@@ -79,6 +79,12 @@ class Entity(dict):
 
 		return cls.database[cls.__name__.lower() + 's']
 
+	def __init__(self, *args, **kwargs):
+		"""Initialize instance dependencies"""
+		super().__init__(*args, **kwargs)
+
+		self.cache = {}
+
 	def delete(self):
 		"""Remove the entity from the database"""
 

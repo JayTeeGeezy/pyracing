@@ -1,7 +1,5 @@
 import locale
 
-from kids.cache import cache
-
 from .common import Entity
 
 
@@ -18,12 +16,12 @@ class Meet(Entity):
 	def get_meets_by_date(cls, date):
 		"""Get a list of meets occurring on the specified date"""
 
-		return cls.find_or_scrape(
+		return sorted(cls.find_or_scrape(
 			filter={'date': date},
 			scrape=cls.scraper.scrape_meets,
 			scrape_args=[date],
 			expiry_date=date
-			)
+			), key=lambda meet: meet['track'])
 
 	@classmethod
 	def initialize(cls):
@@ -37,11 +35,12 @@ class Meet(Entity):
 		return '{track} on {date}'.format(track=self['track'], date=self['date'].strftime(locale.nl_langinfo(locale.D_FMT)))
 
 	@property
-	@cache
 	def races(self):
 		"""Return a list of races occurring at this meet"""
 
-		return Race.get_races_by_meet(self)
+		if 'races' not in self.cache:
+			self.cache['races'] = Race.get_races_by_meet(self)
+		return self.cache['races']
 
 
 from .race import Race
