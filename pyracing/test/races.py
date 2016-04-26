@@ -55,6 +55,15 @@ class RacePropertiesTest(EntityTest):
 		cls.meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
 		cls.race = pyracing.Race.get_races_by_meet(cls.meet)[0]
 
+	def test_importance(self):
+		"""The importance property should return the product of the starting price of runners finishing in the first four"""
+
+		expected_importance = 1.0
+		for starting_price in [runner.starting_price for runner in self.race.runners if 1 <= runner.result <= 4 and runner.starting_price is not None]:
+			expected_importance *= starting_price
+
+		self.assertEqual(expected_importance, self.race.importance)
+
 	def test_meet(self):
 		"""The meet property should return the meet at which the race occurs"""
 
