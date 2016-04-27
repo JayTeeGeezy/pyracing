@@ -36,10 +36,12 @@ setup(
 		]
 	},
 	install_requires=[
+		'jtgpy'
 	],
 	test_suite='nose.collector',
 	tests_require=[
 		'cache_requests',
+		'jtgpy',
 		'lxml',
 		'nose',
 		'pymongo',
