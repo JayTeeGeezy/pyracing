@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from .events import EventManager
+from jtgpy.events import EventManager
 
 
 class Entity(dict):

@@ -36,16 +36,19 @@ setup(
 		]
 	},
 	install_requires=[
+		'jtgpy'
 	],
 	test_suite='nose.collector',
 	tests_require=[
 		'cache_requests',
+		'jtgpy',
 		'lxml',
 		'nose',
 		'pymongo',
 		'pypunters'
 	],
 	dependency_links=[
+		'https://github.com/JayTeeGeezy/jtgpy/tarballs/develop#egg=jtgpy-0.0.0'
 	],
 	include_package_data=True,
 	zip_safe=False
