@@ -1,7 +1,7 @@
 cache-requests==4.0.0
 cssselect==0.9.1
 Jinja2==2.8
--e git+git@github.com:JayTeeGeezy/jtgpy.git@d7ff22a2ce36a1eb943a367563013b10e0d72d04#egg=jtgpy-develop
+-e git+git@github.com:JayTeeGeezy/jtgpy.git@27c955963bfc640f5e91d103a4aff8e2a897597c#egg=jtgpy-develop
 lxml==3.6.0
 MarkupSafe==0.23
 nose==1.3.7

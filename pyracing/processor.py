@@ -2,9 +2,8 @@ from datetime import timedelta
 import locale
 
 from jtgpy.profiling import log_time
+from jtgpy.threaded_queues import WorkerQueue
 import pyracing
-
-from .threaded_queues import WorkerQueue
 
 
 class Processor:
