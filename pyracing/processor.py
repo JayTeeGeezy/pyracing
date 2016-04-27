@@ -1,9 +1,9 @@
 from datetime import timedelta
 import locale
 
+from jtgpy.profiling import log_time
 import pyracing
 
-from .profiling import log_time
 from .threaded_queues import WorkerQueue
 
 
