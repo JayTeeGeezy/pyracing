@@ -88,6 +88,10 @@ To get the meet at which a given race occurs, access the race's meet property as
 
 	>>> meet = races[index].meet
 
+In addition, race objects expose an 'importance' property that returns the product of the starting prices of all runners in the race that finished in the first four, or 1.0 if such data is not yet available. The importance property is accessible using dot-notation as follows:
+
+	>>> importance = races[index].importance
+
 
 Runners
 ~~~~~~~
@@ -449,6 +453,9 @@ Alternatively, individual components of pyracing can be tested by executing any 
 
 Version History
 ---------------
+
+0.3.0 (28 April 2016)
+	Interim release to facilitate initial predictions
 
 0.2.5 (27 April 2016)
 	Fix ZeroDivisionErrors
