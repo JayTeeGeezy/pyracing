@@ -165,7 +165,10 @@ class Runner(Entity):
 		"""Return a PerformanceList containing all of the jockey's performances prior to the current race"""
 
 		if not 'jockey_career' in self.cache:
-			self.cache['jockey_career'] = PerformanceList([performance for performance in self.jockey.performances if performance['date'] < self.race.meet['date']])
+			if self.jockey is not None:
+				self.cache['jockey_career'] = PerformanceList([performance for performance in self.jockey.performances if performance['date'] < self.race.meet['date']])
+			else:
+				self.cache['jockey_career'] = PerformanceList()
 		return self.cache['jockey_career']
 
 	@property
