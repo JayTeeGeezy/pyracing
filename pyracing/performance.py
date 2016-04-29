@@ -25,6 +25,12 @@ class Performance(Entity):
 			), key=lambda performance: performance['date'], reverse=True)
 
 	@classmethod
+	def get_performances_by_jockey(cls, jockey):
+		"""Get a list of performances for the specified jockey"""
+
+		return sorted(cls.find({'jockey_url': jockey['url']}), key=lambda performance: performance['date'], reverse=True)
+
+	@classmethod
 	def initialize(cls):
 		"""Initialize class dependencies"""
 
