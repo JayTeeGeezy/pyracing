@@ -478,6 +478,9 @@ Alternatively, individual components of pyracing can be tested by executing any 
 Version History
 ---------------
 
+0.4.0 (29 April 2016)
+	Interim release to implement jockey statistics
+
 0.3.0 (28 April 2016)
 	Interim release to facilitate initial predictions
 
