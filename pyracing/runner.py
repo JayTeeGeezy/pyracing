@@ -145,6 +145,81 @@ class Runner(Entity):
 		return self.cache['jockey']
 
 	@property
+	def jockey_at_distance(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances within 100m of the current race's distance"""
+
+		if not 'jockey_at_distance' in self.cache:
+			self.cache['jockey_at_distance'] = PerformanceList([performance for performance in self.jockey_career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
+		return self.cache['jockey_at_distance']
+
+	@property
+	def jockey_at_distance_on_track(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances within 100m of the current race's distance on the current track"""
+
+		if not 'jockey_at_distance_on_track' in self.cache:
+			self.cache['jockey_at_distance_on_track'] = PerformanceList([performance for performance in self.jockey_at_distance if performance in self.jockey_on_track])
+		return self.cache['jockey_at_distance_on_track']
+
+	@property
+	def jockey_career(self):
+		"""Return a PerformanceList containing all of the jockey's performances prior to the current race"""
+
+		if not 'jockey_career' in self.cache:
+			if self.jockey is not None:
+				self.cache['jockey_career'] = PerformanceList([performance for performance in self.jockey.performances if performance['date'] < self.race.meet['date']])
+			else:
+				self.cache['jockey_career'] = PerformanceList()
+		return self.cache['jockey_career']
+
+	@property
+	def jockey_firm(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances on firm tracks"""
+
+		if not 'jockey_firm' in self.cache:
+			self.cache['jockey_firm'] = self.get_jockey_performances_by_track_condition('firm')
+		return self.cache['jockey_firm']
+
+	@property
+	def jockey_good(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances on good tracks"""
+
+		if not 'jockey_good' in self.cache:
+			self.cache['jockey_good'] = self.get_jockey_performances_by_track_condition('good')
+		return self.cache['jockey_good']
+
+	@property
+	def jockey_heavy(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances on heavy tracks"""
+
+		if not 'jockey_heavy' in self.cache:
+			self.cache['jockey_heavy'] = self.get_jockey_performances_by_track_condition('heavy')
+		return self.cache['jockey_heavy']
+
+	@property
+	def jockey_on_track(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances on the current track"""
+
+		if not 'jockey_on_track' in self.cache:
+			self.cache['jockey_on_track'] = PerformanceList([performance for performance in self.jockey_career if performance['track'] == self.race.meet['track']])
+		return self.cache['jockey_on_track']
+
+	@property
+	def jockey_soft(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances on soft tracks"""
+
+		if not 'jockey_soft' in self.cache:
+			self.cache['jockey_soft'] = self.get_jockey_performances_by_track_condition('soft')
+		return self.cache['jockey_soft']
+
+	@property
+	def jockey_synthetic(self):
+		"""Return a PerformanceList containing all of the jockey's prior performances on synthetic tracks"""
+
+		if not 'jockey_synthetic' in self.cache:
+			self.cache['jockey_synthetic'] = self.get_jockey_performances_by_track_condition('synthetic')
+		return self.cache['jockey_synthetic']
+
+	@property
 	def on_track(self):
 		"""Return a PerformanceList containing all of the horse's prior performances on the current track"""
 
@@ -293,9 +368,14 @@ class Runner(Entity):
 			return tuple(expected_speeds)
 
 	def get_performances_by_track_condition(self, track_condition):
-		"""Return a PerformanceList containing all prior performances on the specified track condition"""
+		"""Return a PerformanceList containing all prior performances for the horse on the specified track condition"""
 
 		return PerformanceList([performance for performance in self.career if performance['track_condition'].upper().startswith(track_condition.upper())])
+
+	def get_jockey_performances_by_track_condition(self, track_condition):
+		"""Return a PerformanceList containing all prior performances for the jockey on the specified track condition"""
+
+		return PerformanceList([performance for performance in self.jockey_career if performance['track_condition'].upper().startswith(track_condition.upper())])
 
 
 from .race import Race

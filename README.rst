@@ -166,6 +166,30 @@ The following properties (also accessible using dot-notation) return Performance
 | runner.with_jockey          | All prior performances for the horse with the same jockey                              |
 +-----------------------------+----------------------------------------------------------------------------------------+
 
+The following properties (also accessible using dot-notation) return PerformanceList objects (see below) containing a filtered list of the jockey's prior performances:
+
++------------------------------------+----------------------------------------------------------------------------------------+
+| Property                           | Description                                                                            |
++====================================+========================================================================================+
+| runner.jockey_at_distance          | All prior performances at a distance within 100m of the current race                   |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_at_distance_on_track | All prior performances at a distance within 100m of the current race on the same track |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_career               | All performances prior to the current race                                             |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_firm                 | All prior performances on FIRM tracks                                                  |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_good                 | All prior performances on GOOD tracks                                                  |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_heavy                | All prior performances on HEAVY tracks                                                 |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_on_track             | All prior performances on the current track                                            |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_soft                 | All prior performances on SOFT tracks                                                  |
++------------------------------------+----------------------------------------------------------------------------------------+
+| runner.jockey_synthetic            | All prior performances on SYNTHETIC tracks                                             |
++------------------------------------+----------------------------------------------------------------------------------------+
+
 The PerformanceList objects returned by the properties described above expose the following properties:
 
 +------------------------+-------------------------------------------------------------------------------------------------------------------------+
@@ -453,6 +477,9 @@ Alternatively, individual components of pyracing can be tested by executing any 
 
 Version History
 ---------------
+
+0.4.0 (29 April 2016)
+	Interim release to implement jockey statistics
 
 0.3.0 (28 April 2016)
 	Interim release to facilitate initial predictions

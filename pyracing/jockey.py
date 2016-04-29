@@ -45,3 +45,14 @@ class Jockey(Entity):
 	def __str__(self):
 
 		return 'jockey {name}'.format(name=self['name'])
+
+	@property
+	def performances(self):
+		"""Return a list of performances involving this jockey"""
+
+		if not 'performances' in self.cache:
+			self.cache['performances'] = Performance.get_performances_by_jockey(self)
+		return self.cache['performances']
+
+
+from .performance import Performance

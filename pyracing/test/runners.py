@@ -141,6 +141,51 @@ class RunnerPropertiesTest(EntityTest):
 		
 		self.assertEqual(pyracing.Jockey.get_jockey_by_runner(self.runner), self.runner.jockey)
 
+	def test_jockey_at_distance(self):
+		"""The jockey_at_distance property should return a PerformanceList containing all prior performances for the jockey within 100m of the current race distance"""
+
+		self.assertIsInstance(self.runner.jockey_at_distance, pyracing.PerformanceList)
+
+	def test_jockey_at_distance_on_track(self):
+		"""The jockey_at_distance_on_track property should return a PerformanceList containing all prior performances for the jockey within 100m of the current race distance on the current track"""
+
+		self.assertIsInstance(self.runner.jockey_at_distance_on_track, pyracing.PerformanceList)
+
+	def test_jockey_career(self):
+		"""The jockey_career property should return a PerformanceList containing all prior performances for the jockey"""
+
+		self.assertIsInstance(self.runner.jockey_career, pyracing.PerformanceList)
+
+	def test_jockey_firm(self):
+		"""The jockey_firm property should return a PerformanceList containing all prior performances for the jockey on firm tracks"""
+
+		self.assertIsInstance(self.runner.jockey_firm, pyracing.PerformanceList)
+
+	def test_jockey_good(self):
+		"""The jockey_good property should return a PerformanceList containing all prior performances for the jockey on good tracks"""
+
+		self.assertIsInstance(self.runner.jockey_good, pyracing.PerformanceList)
+
+	def test_jockey_heavy(self):
+		"""The jockey_heavy property should return a PerformanceList containing all prior performances for the jockey on heavy tracks"""
+
+		self.assertIsInstance(self.runner.jockey_heavy, pyracing.PerformanceList)
+
+	def test_jockey_on_track(self):
+		"""The jockey_on_track property should return a PerformanceList containing all prior performances for the jockey on the current track"""
+
+		self.assertIsInstance(self.runner.jockey_on_track, pyracing.PerformanceList)
+
+	def test_jockey_soft(self):
+		"""The jockey_soft property should return a PerformanceList containing all prior performances for the jockey on soft tracks"""
+
+		self.assertIsInstance(self.runner.jockey_soft, pyracing.PerformanceList)
+
+	def test_jockey_synthetic(self):
+		"""The jockey_synthetic property should return a PerformanceList containing all prior performances for the jockey on synthetic tracks"""
+
+		self.assertIsInstance(self.runner.jockey_synthetic, pyracing.PerformanceList)
+
 	def test_on_track(self):
 		"""The on_track property should return a PerformanceList containing all prior performances on the current track"""
 

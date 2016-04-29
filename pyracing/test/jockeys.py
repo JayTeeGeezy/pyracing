@@ -44,6 +44,20 @@ class GetFutureJockeyByRunnerTest(EntityTest):
 		runner = race.runners[0]
 		old_jockey = pyracing.Jockey.get_jockey_by_runner(runner)
 
+		pyracing.Entity.SESSION_ID = datetime.now()
+
 		new_jockey = pyracing.Jockey.get_jockey_by_runner(runner)
 
 		self.assertNotEqual(old_jockey['_id'], new_jockey['_id'])
+
+
+class JockeyPropertiesTest(EntityTest):
+
+	def test_performances(self):
+		"""The performances property should return a list of performances involving the jockey"""
+
+		meet = pyracing.Meet.get_meets_by_date(historical_date)[0]
+		race = meet.races[0]
+		runner = race.runners[0]
+
+		self.assertEqual(pyracing.Performance.get_performances_by_jockey(runner.jockey), runner.jockey.performances)
