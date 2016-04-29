@@ -44,6 +44,8 @@ class GetFutureHorseByRunnerTest(EntityTest):
 		runner = race.runners[0]
 		old_horse = pyracing.Horse.get_horse_by_runner(runner)
 
+		pyracing.Entity.SESSION_ID = datetime.now()
+
 		new_horse = pyracing.Horse.get_horse_by_runner(runner)
 
 		self.assertNotEqual(old_horse['_id'], new_horse['_id'])

@@ -6,6 +6,8 @@ from jtgpy.events import EventManager
 class Entity(dict):
 	"""Common functionality for racing entities"""
 
+	SESSION_ID = datetime.now()
+
 	database = None
 	event_manager = EventManager()
 	scraper = None
@@ -21,7 +23,7 @@ class Entity(dict):
 		"""Delete entities matching the specified filter with a scraped_at date prior to expiry_date"""
 
 		if expiry_date is not None:
-			for entity in cls.find(dict({'scraped_at': {'$lt': expiry_date}}, **filter)):
+			for entity in cls.find(dict({'scraped_at': {'$lt': expiry_date}, 'session_id': {'$ne': cls.SESSION_ID}}, **filter)):
 				entity.delete()
 
 	@classmethod
@@ -51,6 +53,7 @@ class Entity(dict):
 			entities = [cls(values) for values in scrape(*scrape_args, **scrape_kwargs)]
 			for entity in entities:
 				entity['scraped_at'] = datetime.now()
+				entity['session_id'] = cls.SESSION_ID
 				entity.save()
 
 		return entities
@@ -69,6 +72,7 @@ class Entity(dict):
 			if values is not None:
 				entity = cls(values)
 				entity['scraped_at'] = datetime.now()
+				entity['session_id'] = cls.SESSION_ID
 				entity.save()
 
 		return entity

@@ -44,6 +44,8 @@ class GetFutureJockeyByRunnerTest(EntityTest):
 		runner = race.runners[0]
 		old_jockey = pyracing.Jockey.get_jockey_by_runner(runner)
 
+		pyracing.Entity.SESSION_ID = datetime.now()
+
 		new_jockey = pyracing.Jockey.get_jockey_by_runner(runner)
 
 		self.assertNotEqual(old_jockey['_id'], new_jockey['_id'])

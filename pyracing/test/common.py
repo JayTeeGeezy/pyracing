@@ -44,6 +44,8 @@ class EntityTest(unittest.TestCase):
 
 		old_ids = [item['_id'] for item in get_method(*get_args, **get_kwargs)]
 
+		pyracing.Entity.SESSION_ID = datetime.now()
+
 		new_ids = [item['_id'] for item in get_method(*get_args, **get_kwargs)]
 
 		for old_id in old_ids:
