@@ -8,9 +8,10 @@ import pyracing
 
 class Processor:
 
-	def __init__(self, threads=1, message_prefix=None, *args, **kwargs):
+	def __init__(self, meets=None, threads=1, message_prefix=None, *args, **kwargs):
 		"""Initialize instance dependencies"""
 
+		self.meets = meets
 		self.threads = threads
 		self.worker_queue = WorkerQueue(threads)
 
@@ -47,15 +48,16 @@ class Processor:
 		if self.must_process_meets:
 
 			for meet in pyracing.Meet.get_meets_by_date(date):
+				if self.meets is None or meet['track'] in self.meets:
 
-				self.worker_queue.add_item(
-					target=log_time,
-					target_kwargs={
-						'target': self.process_meet,
-						'target_args': [meet],
-						'message': '{prefix} {meet}'.format(prefix=self.message_prefix, meet=meet)
-					}
-					)
+					self.worker_queue.add_item(
+						target=log_time,
+						target_kwargs={
+							'target': self.process_meet,
+							'target_args': [meet],
+							'message': '{prefix} {meet}'.format(prefix=self.message_prefix, meet=meet)
+						}
+						)
 
 			if self.worker_queue.is_running:
 				self.worker_queue.join()
