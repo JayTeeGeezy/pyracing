@@ -44,7 +44,7 @@ class Runner(Entity):
 		cls.event_manager.add_subscriber('deleting_race', handle_deleting_race)
 
 		cls.create_index([('race_id', 1)])
-		cls.create_index([('race_id', 1), ('scraped_at', 1)])
+		cls.create_index([('race_id', 1), ('scraped_at', 1), ('session_id', 1)])
 
 	def __str__(self):
 

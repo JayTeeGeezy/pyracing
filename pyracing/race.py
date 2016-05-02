@@ -39,7 +39,7 @@ class Race(Entity):
 		cls.event_manager.add_subscriber('deleting_meet', handle_deleting_meet)
 
 		cls.create_index([('meet_id', 1)])
-		cls.create_index([('meet_id', 1), ('scraped_at', 1)])
+		cls.create_index([('meet_id', 1), ('scraped_at', 1), ('session_id', 1)])
 
 	def __str__(self):
 

@@ -28,7 +28,7 @@ class Meet(Entity):
 		"""Initialize class dependencies"""
 
 		cls.create_index([('date', 1)])
-		cls.create_index([('date', 1), ('scraped_at', 1)])
+		cls.create_index([('date', 1), ('scraped_at', 1), ('session_id', 1)])
 
 	def __str__(self):
 

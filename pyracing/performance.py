@@ -41,7 +41,7 @@ class Performance(Entity):
 		cls.event_manager.add_subscriber('deleting_horse', handle_deleting_horse)
 
 		cls.create_index([('horse_url', 1)])
-		cls.create_index([('horse_url', 1), ('scraped_at', 1)])
+		cls.create_index([('horse_url', 1), ('scraped_at', 1), ('session_id', 1)])
 
 	def __str__(self):
 

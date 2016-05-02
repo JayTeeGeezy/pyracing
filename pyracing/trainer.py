@@ -27,7 +27,7 @@ class Trainer(Entity):
 		"""Initialize class dependencies"""
 
 		cls.create_index([('url', 1)])
-		cls.create_index([('url', 1), ('scraped_at', 1)])
+		cls.create_index([('url', 1), ('scraped_at', 1), ('session_id', 1)])
 
 	def __str__(self):
 
