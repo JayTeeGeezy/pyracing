@@ -70,7 +70,7 @@ class Runner(Entity):
 		"""Return a PerformanceList containing all of the horse's prior performances within 100m of the current race's distance"""
 
 		if not 'at_distance' in self.cache:
-			self.cache['at_distance'] = PerformanceList([performance for performance in self.career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
+			self.cache['at_distance'] = PerformanceList([performance for performance in self.career if 'distance' in self.race and self.race['distance'] is not None and self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
 		return self.cache['at_distance']
 
 	@property
@@ -149,7 +149,7 @@ class Runner(Entity):
 		"""Return a PerformanceList containing all of the jockey's prior performances within 100m of the current race's distance"""
 
 		if not 'jockey_at_distance' in self.cache:
-			self.cache['jockey_at_distance'] = PerformanceList([performance for performance in self.jockey_career if self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
+			self.cache['jockey_at_distance'] = PerformanceList([performance for performance in self.jockey_career if 'distance' in self.race and self.race['distance'] is not None and self.race['distance'] - 100 <= performance['distance'] <= self.race['distance'] + 100])
 		return self.cache['jockey_at_distance']
 
 	@property
